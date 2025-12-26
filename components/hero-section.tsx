@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 // OMDB API key
 const OMDB_API_KEY = "dbb68c16";
@@ -67,11 +68,14 @@ function VerticalSlider({
         {duplicatedPosters.map((poster, index) => (
           <div key={index} className="relative group flex-shrink-0">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 to-primary/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <img
+            <Image
               src={poster}
               alt={`Movie poster ${index + 1}`}
+              width={200}
+              height={300}
               className="relative rounded-lg shadow-2xl w-full h-auto object-cover aspect-[2/3]"
               loading="lazy"
+              unoptimized
             />
           </div>
         ))}
@@ -108,45 +112,35 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-black">
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 md:py-10 py-28">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto px-4 relative z-10 lg:py-20 py-28 pb-16 max-w-[1450px] grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Section - Text Content */}
-          <div className="text-white space-y-6">
+          <div className="text-white space-y-6 text-center lg:text-left">
             <p className="text-primary text-sm md:text-base font-semibold uppercase tracking-wider">
               WELCOME TO FIOO TV
             </p>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+            <h1 className="text-5xl md:text-5xl lg:text-6xl xl:text-[80px] font-semibold ">
               Your Ultimate Entertainment
               <br />
               <span className="text-primary">Destination</span>
             </h1>
             
-            <p className="text-gray-200 text-base md:text-lg leading-relaxed max-w-xl">
-              Experience a world of on-demand content at your fingertips. Dive into the latest movies, 
-              binge-worthy series, exciting documentaries, and more all available in multiple languages 
-              and genres.
-            </p>
-            
-            <p className="text-primary text-sm md:text-base font-semibold uppercase tracking-wider">
-              EXPLORE THE ENDLESS ENTERTAINMENT POSSIBILITIES WITH FIOO TV
+            <p className="text-gray-200 text-base md:text-xl leading-relaxed max-auto">
+            Enjoy movies, series, documentaries, and more - your on-demand entertainment in any language and genre.
             </p>
             
             <div className="space-y-4 pt-4">
-              <p className="text-white text-lg md:text-xl font-medium">
-                Start Your Free Trial Today
-              </p>
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary-600 active:bg-primary-700 text-white px-8 py-6 text-lg rounded-full font-semibold transition-all duration-200 shadow-lg hover:shadow-primary/50"
+                className="bg-primary hover:bg-primary-600 active:bg-primary-700 text-white px-8 lg:px-12 py-6 lg:py-8 lg:text-xl text-base rounded-full font-semibold transition-all duration-200 shadow-lg hover:shadow-primary/50"
               >
-                Start Now
+                Start Your Free Trial Today
               </Button>
             </div>
           </div>
 
           {/* Right Section - Vertical Movie Poster Sliders */}
-          <div className="relative h-[600px] lg:h-[700px] overflow-hidden">
+          <div className="relative h-[450px] lg:h-[700px] overflow-hidden">
             {/* Gradient overlays for fade effect */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
@@ -175,8 +169,7 @@ export function HeroSection() {
             )}
           </div>
         </div>
-      </div>
-
+  
    
     </section>
   );

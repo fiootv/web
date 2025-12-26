@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -69,9 +70,8 @@ export default {
       },
       fontFamily: {
         poppins: ["var(--font-poppins)", "Poppins", "sans-serif"],
-        "tiktok-sans": ["TikTok Sans", "sans-serif"],
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;

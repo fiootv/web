@@ -45,7 +45,7 @@ export function Header() {
     <header className="w-full relative z-50">
       {/* Top Bar - Primary Color */}
       <div className="bg-primary text-white py-2 relative z-50">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-[1450px]">
           <div className="flex items-center justify-between text-sm">
             {/* Left side - Links */}
             <div className="flex items-center gap-3">
@@ -84,7 +84,7 @@ export function Header() {
       <div className={`fixed left-0 right-0 z-50 border-b border-white/30 bg-black/95 backdrop-blur-sm transition-all duration-150 ${
         isScrolled ? "top-0" : "top-[40px]"
       }`}>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-[1450px]">
           <div className="flex items-center justify-between h-20">
             {/* Left - Logo */}
             <Link href="/" className="flex items-center">
