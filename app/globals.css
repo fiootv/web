@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=TikTok+Sans:wght@400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -63,6 +65,61 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-poppins;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "TikTok Sans", sans-serif;
+    font-weight: 600;
+  }
+}
+
+@layer utilities {
+  .text-primary {
+    color: #ef2828;
+  }
+  .bg-primary {
+    background-color: #ef2828;
+  }
+  .border-primary {
+    border-color: #ef2828;
+  }
+  .hover\:text-primary:hover {
+    color: #ef2828;
+  }
+  .hover\:bg-primary:hover {
+    background-color: #dc2626;
+  }
+  .hover\:border-primary:hover {
+    border-color: #ef2828;
+  }
+  .active\:bg-primary:active {
+    background-color: #b91c1c;
+  }
+}
+
+/* Vertical Scroll Animations */
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes scroll-down {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-scroll-up {
+  animation: scroll-up linear infinite;
+}
+
+.animate-scroll-down {
+  animation: scroll-down linear infinite;
 }
