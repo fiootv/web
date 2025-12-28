@@ -701,8 +701,8 @@ export function ByTheNumbersSection() {
   };
 
   return (
-    <section className="relative min-h-[500px] overflow-hidden bg-white py-10 md:py-20">
-      <h2 className=" text-4xl md:text-6xl font-semibold text-center mb-6 text-gray-900 px-4">Why fiootv is Your <br /> Go-To EntertainmentHub</h2>
+    <section className="relative min-h-[500px] overflow-hidden bg-white py-10 md:py-20 !pb-0">
+      <h2 className=" text-3xl md:text-6xl font-semibold text-center mb-6 text-gray-900 px-4">Why fiootv is Your <br /> Go-To EntertainmentHub</h2>
       <p className="text-center mb-10 text-gray-600 px-4">Expericen our fiotv platform from across the globe. and enjoy your favorite shows and movies.</p>
       <div className="flex flex-row items-center justify-center  h-full relative w-full">
         <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-full">
