@@ -57,7 +57,7 @@ const benefits = [
 
 export function WhyChooseSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#faf9f6] py-20 md:py-28">
+    <section className="relative min-h-screen overflow-hidden bg-white py-20 md:py-28">
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Title */}
         <motion.div
@@ -84,7 +84,7 @@ export function WhyChooseSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group relative"
             >
-              <div className="relative h-full bg-white rounded-3xl border-2 border-gray-200 p-6 md:p-8 flex flex-col hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+              <div className="relative h-full bg-gray-50 rounded-3xl p-6 md:p-8 flex flex-col hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                 {/* Background number */}
                 <div className="absolute top-4 right-4 text-primary/5 font-bold text-7xl md:text-8xl leading-none select-none pointer-events-none group-hover:text-primary/10 transition-colors">
                   {benefit.number}

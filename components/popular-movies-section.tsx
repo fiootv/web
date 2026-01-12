@@ -125,12 +125,12 @@ export function PopularMoviesSection() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="relative overflow-hidden rounded-xl border-2 border-gray-700 hover:bg-white/5 transition-all duration-300">
+                <div className="relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300">
                   {/* Movie Poster or Placeholder */}
-                  <div className={`relative aspect-[2/3] overflow-hidden ${movie.isPlaceholder ? 'bg-gray-700 flex items-center justify-center' : 'bg-gray-800'}`}>
+                  <div className={`relative aspect-[2/3] overflow-hidden ${movie.isPlaceholder ? 'bg-black flex items-center justify-center' : 'bg-gray-800'}`}>
                     {movie.isPlaceholder ? (
                       <div className="text-white/50 font-medium text-lg text-center px-4">
-                        No Image Available
+                        {/* No Image Available */}
                       </div>
                     ) : (
                       <>
@@ -138,19 +138,19 @@ export function PopularMoviesSection() {
                           src={movie.poster}
                           alt={movie.title}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="hidden object-cover group-hover:scale-105 transition-transform duration-500"
                           loading="lazy"
                           unoptimized
                         />
                         {/* Gradient overlay on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-black group-hover:opacity-100 transition-opacity duration-300" />
                       </>
                     )}
                   </div>
 
                   {/* Movie Info */}
-                  <div className="p-3 bg-gray-900/90">
-                    <h3 className="text-white font-semibold text-sm md:text-base mb-1 line-clamp-2 min-h-[2.5rem] md:min-h-[3rem] leading-tight flex-none">
+                  <div className="p-3 bg-black">
+                    <h3 className="text-white font-semibold text-lg mb-1 line-clamp-1">
                       {movie.title}
                     </h3>
                     <p className="text-primary text-xs md:text-sm font-medium">

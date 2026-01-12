@@ -75,7 +75,7 @@ const reviews: Review[] = [
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <div className="bg-white rounded-3xl border-2 border-gray-100 p-8 h-full flex flex-col hover:bg-primary/5 transition-colors duration-300">
+    <div className="bg-white rounded-3xl p-8 h-full flex flex-col hover:bg-primary/5 transition-colors duration-300">
       {/* Rating and Date */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">

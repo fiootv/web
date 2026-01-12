@@ -49,7 +49,7 @@ const contentStats = [
 
 export function ContentLibrarySection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-white py-20 md:py-28 bg-gray-100">
+    <section className="relative min-h-screen overflow-hidden py-20 md:py-28 bg-white">
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Title */}
         <motion.div
@@ -76,10 +76,7 @@ export function ContentLibrarySection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className={`${stat.span} group relative`}
             >
-              <div className="relative h-full bg-white rounded-3xl border-2 border-gray-200 p-6 md:p-8 flex flex-col justify-between hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-                {/* Background gradient accent */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-300" />
-
+              <div className="relative h-full bg-gray-100 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                 {/* Number */}
                 <div className="relative z-10">
                   <motion.div
@@ -108,8 +105,6 @@ export function ContentLibrarySection() {
                   </p>
                 </div>
 
-                {/* Decorative corner accent */}
-                <div className="absolute bottom-0 right-0 w-20 h-20 border-l-2 border-t-2 border-primary/20 rounded-tl-3xl" />
               </div>
             </motion.div>
           ))}

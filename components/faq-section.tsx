@@ -101,7 +101,7 @@ export function FAQSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="border-2 border-gray-200 rounded-xl overflow-hidden hover:bg-primary/5 transition-all duration-300"
+                    className="bg-gray-50 rounded-xl overflow-hidden hover:bg-primary/5 transition-all duration-300"
                   >
                     {/* Question */}
                     <button
