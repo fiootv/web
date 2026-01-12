@@ -3,44 +3,44 @@
 import { motion } from "motion/react";
 
 const contentStats = [
-  { 
-    value: "28k+", 
+  {
+    value: "28k+",
     label: "ENGLISH MOVIES & SERIES",
     span: "col-span-1 md:col-span-2 md:row-span-2",
     size: "large"
   },
-  { 
-    value: "6k+", 
+  {
+    value: "6k+",
     label: "ENGLISH SERIES",
     span: "col-span-1 md:row-span-2",
     size: "medium"
   },
-  { 
-    value: "1k+", 
+  {
+    value: "1k+",
     label: "DOCUMENTARIES",
     span: "col-span-1",
     size: "small"
   },
-  { 
-    value: "28k+", 
+  {
+    value: "28k+",
     label: "COLLECTION MOVIES",
     span: "col-span-1",
     size: "small"
   },
-  { 
-    value: "15+", 
+  {
+    value: "15+",
     label: "CONTENT IN LANGUAGES",
     span: "col-span-1",
     size: "small"
   },
-  { 
-    value: "1.90k+", 
+  {
+    value: "1.90k+",
     label: "KIDS MOVIES",
     span: "col-span-1 md:col-span-2",
     size: "medium"
   },
-  { 
-    value: "395+", 
+  {
+    value: "395+",
     label: "KIDS SERIES",
     span: "col-span-1",
     size: "small"
@@ -49,7 +49,7 @@ const contentStats = [
 
 export function ContentLibrarySection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-white py-16 md:py-24 bg-gray-100">
+    <section className="relative min-h-screen overflow-hidden bg-white py-20 md:py-28 bg-gray-100">
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Title */}
         <motion.div
@@ -59,7 +59,7 @@ export function ContentLibrarySection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-3xl md:text-5xl font-semibold text-center mb-6 text-gray-900 px-4 max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-6xl font-semibold text-center mb-6 text-gray-900 px-4 max-w-4xl mx-auto">
             Explore Our Content Library and see{" "}
             <span className="text-primary">for yourself</span> why fiootv is the ultimate choice.
           </h2>
@@ -76,10 +76,10 @@ export function ContentLibrarySection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className={`${stat.span} group relative`}
             >
-              <div className="relative h-full bg-white rounded-2xl border-2 border-gray-200 p-6 md:p-8 flex flex-col justify-between hover:border-primary/50 transition-all duration-300 hover:shadow-xl overflow-hidden">
+              <div className="relative h-full bg-white rounded-3xl border-2 border-gray-200 p-6 md:p-8 flex flex-col justify-between hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                 {/* Background gradient accent */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-300" />
-                
+
                 {/* Number */}
                 <div className="relative z-10">
                   <motion.div
@@ -89,11 +89,10 @@ export function ContentLibrarySection() {
                     transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
                     className="mb-4"
                   >
-                    <span className={`font-bold text-gray-900 ${
-                      stat.size === "large" ? "text-5xl md:text-6xl" :
-                      stat.size === "medium" ? "text-4xl md:text-5xl" :
-                      "text-3xl md:text-4xl"
-                    }`}>
+                    <span className={`font-bold text-gray-900 ${stat.size === "large" ? "text-5xl md:text-7xl" :
+                      stat.size === "medium" ? "text-4xl md:text-6xl" :
+                        "text-3xl md:text-5xl"
+                      }`}>
                       {stat.value}
                     </span>
                   </motion.div>
@@ -101,17 +100,16 @@ export function ContentLibrarySection() {
 
                 {/* Label */}
                 <div className="relative z-10 mt-auto">
-                  <p className={`font-semibold text-gray-900 uppercase tracking-wider ${
-                    stat.size === "large" ? "text-sm md:text-base" :
-                    stat.size === "medium" ? "text-xs md:text-sm" :
-                    "text-xs"
-                  }`}>
+                  <p className={`font-semibold text-gray-900 uppercase tracking-wider ${stat.size === "large" ? "text-base md:text-xl" :
+                    stat.size === "medium" ? "text-sm md:text-base" :
+                      "text-xs md:text-sm"
+                    }`}>
                     {stat.label}
                   </p>
                 </div>
 
                 {/* Decorative corner accent */}
-                <div className="absolute bottom-0 right-0 w-20 h-20 border-l-2 border-t-2 border-primary/20 rounded-tl-2xl" />
+                <div className="absolute bottom-0 right-0 w-20 h-20 border-l-2 border-t-2 border-primary/20 rounded-tl-3xl" />
               </div>
             </motion.div>
           ))}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -70,6 +71,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} font-poppins antialiased bg-black text-white`}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
