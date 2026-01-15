@@ -161,7 +161,7 @@ export default function ContactPage() {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-primary hover:bg-primary-600 text-white px-8 py-7 text-lg font-semibold rounded-full shadow-lg hover:shadow-primary/30 transition-all duration-300"
+                className="w-full bg-primary hover:bg-primary/90 text-white px-8 py-7 text-lg font-semibold transition-colors duration-200"
               >
                 Get in touch
               </Button>
@@ -169,7 +169,7 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column - Image with Testimonial Overlay */}
-          <div className="relative h-[600px] lg:h-[800px] rounded-3xl overflow-hidden shadow-2xl">
+          <div className="relative h-[600px] lg:h-[800px] border border-gray-200 overflow-hidden">
             <Image
               src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1000&auto=format&fit=crop"
               alt="Contact us"
@@ -178,8 +178,8 @@ export default function ContactPage() {
               priority
             />
             
-            {/* Subtle gradient overlay for better text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            {/* Subtle overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/30" />
             
             {/* Testimonial Overlay - White text directly on image */}
             <div className="absolute bottom-12 left-8 right-8 lg:left-12 lg:right-12 lg:bottom-16 z-10">
@@ -212,8 +212,8 @@ export default function ContactPage() {
         <div className="mt-20 pt-12 border-t border-gray-200">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {/* Email Card */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+            <div className="bg-white border border-gray-200 p-6 hover:border-primary transition-colors duration-200">
+              <div className="w-12 h-12 bg-gray-50 border border-gray-200 flex items-center justify-center mb-4">
                 <Mail className="w-6 h-6 text-gray-700" />
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-2">
@@ -231,8 +231,8 @@ export default function ContactPage() {
             </div>
 
             {/* Phone Card */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+            <div className="bg-white border border-gray-200 p-6 hover:border-primary transition-colors duration-200">
+              <div className="w-12 h-12 bg-gray-50 border border-gray-200 flex items-center justify-center mb-4">
                 <Phone className="w-6 h-6 text-gray-700" />
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-2">
@@ -250,8 +250,8 @@ export default function ContactPage() {
             </div>
 
             {/* Location Card */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+            <div className="bg-white border border-gray-200 p-6 hover:border-primary transition-colors duration-200">
+              <div className="w-12 h-12 bg-gray-50 border border-gray-200 flex items-center justify-center mb-4">
                 <MapPin className="w-6 h-6 text-gray-700" />
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-2">

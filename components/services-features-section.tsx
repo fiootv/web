@@ -1,14 +1,31 @@
 "use client";
 
 import { motion } from "motion/react";
+import {
+  Tv,
+  Smartphone,
+  Globe,
+  Sparkles,
+  Monitor,
+  DollarSign,
+  LucideIcon,
+} from "lucide-react";
 
 interface HoverFeature {
   title: string;
   description: string;
 }
 
-const services = [
+interface Service {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  hoverFeatures: HoverFeature[];
+}
+
+const services: Service[] = [
   {
+    icon: Tv,
     title: "All-in-One Streaming Subscription",
     description: "Access movies, series, documentaries, and live TV channels all in one comprehensive subscription. No need for multiple services—everything you need is here.",
     hoverFeatures: [
@@ -27,6 +44,7 @@ const services = [
     ] as HoverFeature[],
   },
   {
+    icon: Smartphone,
     title: "Seamless Multi-Device Experience",
     description: "Stream on any device—smart TVs, smartphones, tablets, laptops, and more. Your entertainment follows you wherever you go with seamless synchronization.",
     hoverFeatures: [
@@ -49,6 +67,7 @@ const services = [
     ] as HoverFeature[],
   },
   {
+    icon: Globe,
     title: "Global Accessibility",
     description: "Watch content from anywhere in the world. Our platform is designed to work globally, giving you access to international content libraries.",
     hoverFeatures: [
@@ -67,6 +86,7 @@ const services = [
     ] as HoverFeature[],
   },
   {
+    icon: Sparkles,
     title: "Personalized Content Recommendations",
     description: "Discover new favorites with our intelligent recommendation system that learns your preferences and suggests content tailored just for you.",
     hoverFeatures: [
@@ -85,6 +105,7 @@ const services = [
     ] as HoverFeature[],
   },
   {
+    icon: Monitor,
     title: "High-Quality Streaming",
     description: "Enjoy crystal-clear picture quality with support for SD, HD, and 4K UHD streaming. Experience your favorite content in the best quality possible.",
     hoverFeatures: [
@@ -103,6 +124,7 @@ const services = [
     ] as HoverFeature[],
   },
   {
+    icon: DollarSign,
     title: "Flexible and Affordable Pricing",
     description: "Choose from flexible subscription plans that fit your budget. No hidden fees, no long-term contracts—just great entertainment at great prices.",
     hoverFeatures: [
@@ -136,16 +158,24 @@ export function ServicesFeaturesSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group relative"
             >
-              <div className="relative h-full bg-primary rounded-2xl md:rounded-3xl p-6 md:p-8 border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-                <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-white/90 text-sm md:text-base leading-relaxed">
-                  {service.description}
-                </p>
+              <div className="relative h-full min-h-[500px] flex flex-col justify-between  bg-primary border border-primary p-6 md:p-8 transition-colors duration-200 overflow-hidden">
+                {/* Icon at the top */}
+                <div className="flex">
+                  <service.icon className="w-16 h-16 md:w-20 md:h-20 text-white" strokeWidth={1} />
+                </div>
+
+                {/* Title and description at the bottom */}
+                <div className="flex flex-col w-full">
+                  <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
+                    {service.title}
+                  </h3>
+                  <p className="text-white/90 text-sm md:text-base leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
 
                 {/* Hover Overlay with Features */}
-                <div className="absolute inset-0 bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 overflow-y-auto">
+                <div className="absolute inset-0 bg-white border border-primary p-6 md:p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 overflow-y-auto">
                   <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-6">
                     {service.title}
                   </h3>
@@ -175,9 +205,9 @@ export function ServicesFeaturesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="group relative"
+            className="group relative hidden"
           >
-            <div className="relative h-full bg-primary rounded-2xl md:rounded-3xl p-6 md:p-8 border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-center items-center text-center">
+            <div className="relative h-full bg-primary border border-primary p-6 md:p-8 transition-colors duration-200 flex flex-col justify-center items-center text-center">
               <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">
                 And Many More...
               </h3>

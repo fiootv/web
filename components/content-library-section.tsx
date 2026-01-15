@@ -66,7 +66,7 @@ export function ContentLibrarySection() {
         </motion.div>
 
         {/* Bento Box Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4">
           {contentStats.map((stat, index) => (
             <motion.div
               key={index}
@@ -76,7 +76,7 @@ export function ContentLibrarySection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className={`${stat.span} group relative`}
             >
-              <div className="relative h-full bg-gray-100 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+              <div className="relative h-full bg-gray-50 border border-gray-200 p-6 md:p-8 flex flex-col justify-between hover:border-primary transition-colors duration-200 overflow-hidden">
                 {/* Number */}
                 <div className="relative z-10">
                   <motion.div
@@ -94,7 +94,7 @@ export function ContentLibrarySection() {
 
                 {/* Label */}
                 <div className="relative z-10 mt-auto">
-                  <p className={`font-semibold text-gray-900 uppercase tracking-wider ${stat.size === "large" ? "text-base md:text-xl" :
+                  <p className={`font-medium text-gray-700 uppercase tracking-wider ${stat.size === "large" ? "text-base md:text-xl" :
                     stat.size === "medium" ? "text-sm md:text-base" :
                       "text-xs md:text-sm"
                     }`}>

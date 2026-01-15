@@ -81,7 +81,7 @@ export function FAQSection() {
           <div className="container mx-auto px-4 max-w-2xl w-full">
             {/* Header */}
             <div className="mb-8">
-              <p className="text-primary text-sm md:text-base font-semibold uppercase tracking-wider mb-4">
+              <p className="text-primary text-sm md:text-base font-medium uppercase tracking-wider mb-4">
                 FIND ANSWERS FAST: EXPLORE OUR FAQ SECTION!
               </p>
               <h2 className="text-3xl md:text-6xl font-semibold text-gray-900 mb-6">
@@ -91,7 +91,7 @@ export function FAQSection() {
             </div>
 
             {/* FAQ Items */}
-            <div className="space-y-4">
+            <div className="space-y-2">
               {faqs.map((faq, index) => {
                 const isOpen = openIndex === index;
                 return (
@@ -101,7 +101,7 @@ export function FAQSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="bg-gray-50 rounded-xl overflow-hidden hover:bg-primary/5 transition-all duration-300"
+                    className="border border-gray-200 hover:border-primary transition-colors duration-200"
                   >
                     {/* Question */}
                     <button

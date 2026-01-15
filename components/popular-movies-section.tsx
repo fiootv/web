@@ -76,19 +76,7 @@ export function PopularMoviesSection() {
   // No useEffect needed for static data
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#262626] py-20 md:py-28">
-      {/* Background dot pattern */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-          backgroundSize: '30px 30px',
-        }}
-      />
-
-      {/* Orange glowing dot on the right */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-32 h-32 bg-primary/30 rounded-full blur-3xl opacity-50" />
-
+    <section className="relative min-h-screen overflow-hidden bg-black py-20 md:py-28">
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Header */}
         <motion.div
@@ -98,13 +86,13 @@ export function PopularMoviesSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 md:mb-16"
         >
-          <p className="text-primary text-sm md:text-base font-semibold uppercase tracking-wider mb-4">
+          <p className="text-primary text-sm md:text-base font-medium uppercase tracking-wider mb-4">
             UPDATED MOVIES
           </p>
           <h2 className="text-3xl md:text-6xl font-semibold text-white mb-6">
             Watch Popular Movies Online
           </h2>
-          <p className="text-white/80 text-base md:text-xl max-w-2xl mx-auto font-medium">
+          <p className="text-white/70 text-base md:text-xl max-w-2xl mx-auto">
             Stay Current with Our Freshly Updated Content!
           </p>
         </motion.div>
@@ -115,7 +103,7 @@ export function PopularMoviesSection() {
             <div className="text-white text-lg">Loading movies...</div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             {movies.map((movie, index) => (
               <motion.div
                 key={index}
@@ -125,32 +113,28 @@ export function PopularMoviesSection() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+                <div className="relative overflow-hidden border border-gray-800 hover:border-primary transition-colors duration-200">
                   {/* Movie Poster or Placeholder */}
-                  <div className={`relative aspect-[2/3] overflow-hidden ${movie.isPlaceholder ? 'bg-black flex items-center justify-center' : 'bg-gray-800'}`}>
+                  <div className={`relative aspect-[2/3] overflow-hidden ${movie.isPlaceholder ? 'bg-gray-900 flex items-center justify-center' : 'bg-gray-800'}`}>
                     {movie.isPlaceholder ? (
-                      <div className="text-white/50 font-medium text-lg text-center px-4">
+                      <div className="text-white/30 font-medium text-lg text-center px-4">
                         {/* No Image Available */}
                       </div>
                     ) : (
-                      <>
-                        <Image
-                          src={movie.poster}
-                          alt={movie.title}
-                          fill
-                          className="hidden object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
-                          unoptimized
-                        />
-                        {/* Gradient overlay on hover */}
-                        <div className="absolute inset-0 bg-black group-hover:opacity-100 transition-opacity duration-300" />
-                      </>
+                      <Image
+                        src={movie.poster}
+                        alt={movie.title}
+                        fill
+                        className="object-cover"
+                        loading="lazy"
+                        unoptimized
+                      />
                     )}
                   </div>
 
                   {/* Movie Info */}
-                  <div className="p-3 bg-black">
-                    <h3 className="text-white font-semibold text-lg mb-1 line-clamp-1">
+                  <div className="p-3 bg-black border-t border-gray-800">
+                    <h3 className="text-white font-semibold text-base mb-1 line-clamp-1">
                       {movie.title}
                     </h3>
                     <p className="text-primary text-xs md:text-sm font-medium">

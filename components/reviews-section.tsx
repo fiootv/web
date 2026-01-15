@@ -75,7 +75,7 @@ const reviews: Review[] = [
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <div className="bg-white rounded-3xl p-8 h-full flex flex-col hover:bg-primary/5 transition-colors duration-300">
+    <div className="bg-white border border-gray-200 p-8 h-full flex flex-col hover:border-primary transition-colors duration-200">
       {/* Rating and Date */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
@@ -89,23 +89,23 @@ function ReviewCard({ review }: { review: Review }) {
           </div>
           <span className="text-gray-400 text-sm font-medium">(5/5)</span>
         </div>
-        <span className="text-gray-400 text-sm font-medium bg-gray-50 px-3 py-1 rounded-full">{review.date}</span>
+        <span className="text-gray-400 text-sm font-medium bg-gray-50 px-3 py-1 border border-gray-200">{review.date}</span>
       </div>
 
       {/* Review Text */}
-      <p className="text-gray-900 leading-relaxed mb-8 flex-grow text-lg ">
+      <p className="text-gray-900 leading-relaxed mb-8 flex-grow text-lg">
         &quot;{review.text}&quot;
       </p>
 
       {/* Reviewer Info */}
-      <div className="flex items-center gap-4 pt-6 border-t border-gray-50">
+      <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
         <div
-          className={`w-14 h-14 rounded-full ${review.avatarColor} flex items-center justify-center text-gray-800 font-bold text-xl`}
+          className={`w-14 h-14 ${review.avatarColor} flex items-center justify-center text-gray-800 font-bold text-xl border border-gray-200`}
         >
           {review.name.charAt(0)}
         </div>
         <div>
-          <p className="font-bold text-gray-900 text-lg">{review.name}</p>
+          <p className="font-semibold text-gray-900 text-lg">{review.name}</p>
           <p className="text-sm text-gray-500 font-medium">
             {review.title}, {review.company}
           </p>
@@ -117,7 +117,7 @@ function ReviewCard({ review }: { review: Review }) {
 
 export function ReviewsSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#faf9f6] to-[#f5f4f1] py-20 md:py-28">
+    <section className="relative min-h-screen overflow-hidden bg-white py-20 md:py-28">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Top Section - Statistics and CTAs */}
         <motion.div
@@ -151,7 +151,7 @@ export function ReviewsSection() {
                 ].map((color, index) => (
                   <div
                     key={index}
-                    className={`w-10 h-10 md:w-12 md:h-12 rounded-full ${color} flex items-center justify-center text-gray-700 font-bold text-base md:text-lg border-2 border-white`}
+                    className={`w-10 h-10 md:w-12 md:h-12 ${color} flex items-center justify-center text-gray-700 font-bold text-base md:text-lg border border-gray-300`}
                   >
                     {String.fromCharCode(65 + index)}
                   </div>
@@ -172,7 +172,7 @@ export function ReviewsSection() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-start md:items-end gap-3 md:gap-4 w-full md:w-auto">
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary-600 text-white px-6 py-4 md:px-8 md:py-6 rounded-full font-semibold text-sm md:text-lg flex items-center justify-center gap-2 w-full sm:w-auto shadow-lg hover:shadow-primary/25 transition-all duration-300"
+                  className="bg-primary hover:bg-primary/90 text-white px-6 py-4 md:px-8 md:py-6 font-semibold text-sm md:text-lg flex items-center justify-center gap-2 w-full sm:w-auto transition-colors duration-200"
                 >
                   Get a free trial
                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
@@ -180,7 +180,7 @@ export function ReviewsSection() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-4 md:px-8 md:py-6 rounded-full font-semibold text-sm md:text-lg flex items-center justify-center gap-2 w-full sm:w-auto"
+                  className="bg-white border border-primary text-primary hover:bg-primary hover:text-white px-6 py-4 md:px-8 md:py-6 font-semibold text-sm md:text-lg flex items-center justify-center gap-2 w-full sm:w-auto transition-colors duration-200"
                 >
                   Read more reviews
                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
@@ -192,7 +192,7 @@ export function ReviewsSection() {
 
         {/* Reviews Grid/Carousel */}
         {/* Desktop Grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6">
+        <div className="hidden md:grid md:grid-cols-3 gap-4">
           {reviews.map((review, index) => (
             <motion.div
               key={review.id}

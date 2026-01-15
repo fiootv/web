@@ -366,10 +366,10 @@ export default function ChannelsPage() {
           <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-6 py-2 text-sm font-medium transition-colors border ${
                 selectedCategory === null
-                  ? "bg-primary text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-primary text-white border-primary"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-primary"
               }`}
             >
               All Categories
@@ -378,10 +378,10 @@ export default function ChannelsPage() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`px-6 py-2 text-sm font-medium transition-colors border ${
                   selectedCategory === category
-                    ? "bg-primary text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-primary text-white border-primary"
+                    : "bg-white text-gray-700 border-gray-200 hover:border-primary"
                 }`}
               >
                 {category}
@@ -422,7 +422,7 @@ export default function ChannelsPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2, delay: index * 0.01 }}
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:border-primary hover:shadow-md transition-all duration-200 cursor-pointer group"
+                    className="bg-white border border-gray-200 p-4 hover:border-primary transition-colors duration-200 cursor-pointer group"
                   >
                     <p className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
                       {channel}

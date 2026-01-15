@@ -51,7 +51,7 @@ const benefits = [
 
 export function WhyChooseSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gray-100 py-20 md:py-28">
+    <section className="relative min-h-screen overflow-hidden bg-white py-20 md:py-28">
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Title */}
         <motion.div
@@ -68,7 +68,7 @@ export function WhyChooseSection() {
         </motion.div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {benefits.map((benefit, index) => (
             <motion.div
               key={index}
@@ -78,24 +78,24 @@ export function WhyChooseSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group relative"
             >
-              <div className="relative h-full bg-white rounded-3xl p-6 md:p-8 flex flex-col hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+              <div className="relative h-full bg-gray-50 border border-gray-200 p-6 md:p-8 flex flex-col hover:border-primary transition-colors duration-200 overflow-hidden">
                 {/* Background number */}
-                <div className="absolute top-4 right-4 text-primary/5 font-bold text-7xl md:text-8xl leading-none select-none pointer-events-none group-hover:text-primary/10 transition-colors">
+                <div className="absolute top-4 right-4 text-primary/5 font-bold text-7xl md:text-8xl leading-none select-none pointer-events-none">
                   {benefit.number}
                 </div>
 
                 {/* Icon */}
-                <div className="relative z-10 mb-6 text-gray-500">
-                  <benefit.icon className="w-12 h-12" />
+                <div className="relative z-10 mb-6 text-primary">
+                  <benefit.icon className="w-10 h-10" />
                 </div>
 
                 {/* Heading */}
-                <h3 className="relative z-10 text-xl md:text-3xl mb-6 font-medium text-gray-900 leading-relaxed">
+                <h3 className="relative z-10 text-xl md:text-2xl mb-4 font-semibold text-gray-900 leading-tight">
                   {benefit.heading}
                 </h3>
 
                 {/* Description */}
-                <p className="relative z-10 text-gray-600 leading-relaxed font-medium">
+                <p className="relative z-10 text-gray-600 leading-relaxed text-sm md:text-base">
                   {benefit.description}
                 </p>
               </div>

@@ -9,7 +9,7 @@ export function ServicesHeroSection() {
     <section className="relative min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden bg-black">
       {/* Background Image Overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/70 to-black/80 z-10" />
+        <div className="absolute inset-0 bg-black/70 z-10" />
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517604931442-7f0d8ed32c55?w=1920&auto=format&fit=crop&q=80')] bg-cover bg-center opacity-30" />
       </div>
 
