@@ -58,18 +58,33 @@ export async function updateSession(request: NextRequest) {
     "/about",
     "/billing",
     "/support",
-    '/channels'
+    '/channels',
+    '/sync'
+  ];
+
+  // API routes that should be accessible (sync-related endpoints)
+  const publicApiRoutes = [
+    '/api/cookie-config',
+    '/api/sync-channels',
+    '/api/channels',
+    '/api/categories'
   ];
 
   const isPublicRoute = publicRoutes.some((route) => 
     request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith(`${route}/`)
   );
 
+  const isPublicApiRoute = publicApiRoutes.some((route) => 
+    request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith(`${route}/`)
+  );
+
   if (
     !isPublicRoute &&
+    !isPublicApiRoute &&
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
+    !request.nextUrl.pathname.startsWith("/auth") &&
+    !request.nextUrl.pathname.startsWith("/api/auth")
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
