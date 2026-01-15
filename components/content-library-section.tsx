@@ -6,50 +6,50 @@ const contentStats = [
   {
     value: "28k+",
     label: "ENGLISH MOVIES & SERIES",
-    span: "col-span-1 md:col-span-2 md:row-span-2",
+    span: "col-span-1 md:col-span-4",
     size: "large"
   },
   {
     value: "6k+",
     label: "ENGLISH SERIES",
-    span: "col-span-1 md:row-span-2",
+    span: "col-span-1 md:col-span-4",
     size: "medium"
   },
   {
     value: "1k+",
     label: "DOCUMENTARIES",
-    span: "col-span-1",
+    span: "col-span-1 md:col-span-4",
     size: "small"
   },
   {
     value: "28k+",
     label: "COLLECTION MOVIES",
-    span: "col-span-1",
+    span: "col-span-1 md:col-span-3",
     size: "small"
   },
   {
     value: "15+",
     label: "CONTENT IN LANGUAGES",
-    span: "col-span-1",
+    span: "col-span-1 md:col-span-3",
     size: "small"
   },
   {
     value: "1.90k+",
     label: "KIDS MOVIES",
-    span: "col-span-1 md:col-span-2",
+    span: "col-span-1 md:col-span-3",
     size: "medium"
   },
   {
     value: "395+",
     label: "KIDS SERIES",
-    span: "col-span-1",
+    span: "col-span-1 md:col-span-3",
     size: "small"
   },
 ];
 
 export function ContentLibrarySection() {
   return (
-    <section className="relative min-h-screen overflow-hidden py-20 md:py-28 bg-white">
+    <section className="relative overflow-hidden py-20 md:py-28 bg-white">
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Title */}
         <motion.div
@@ -57,16 +57,16 @@ export function ContentLibrarySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-20"
+          className="text-left mb-16 md:mb-20"
         >
-          <h2 className="text-3xl md:text-6xl font-semibold text-center mb-6 text-gray-900 px-4 max-w-4xl mx-auto">
-            Explore Our Content Library and see{" "}
+          <h2 className="text-3xl md:text-6xl font-semibold text-left mb-6 text-gray-900 px-4 max-w-7xl mx-auto">
+            Explore Our Library and see{" "}
             <span className="text-primary">for yourself</span> why fiootv is the ultimate choice.
           </h2>
         </motion.div>
 
         {/* Bento Box Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           {contentStats.map((stat, index) => (
             <motion.div
               key={index}
@@ -86,10 +86,7 @@ export function ContentLibrarySection() {
                     transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
                     className="mb-4"
                   >
-                    <span className={`font-bold text-gray-900 ${stat.size === "large" ? "text-5xl md:text-7xl" :
-                      stat.size === "medium" ? "text-4xl md:text-6xl" :
-                        "text-3xl md:text-5xl"
-                      }`}>
+                    <span className="font-semibold text-gray-900 text-4xl md:text-6xl">
                       {stat.value}
                     </span>
                   </motion.div>

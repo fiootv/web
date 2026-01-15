@@ -34,11 +34,14 @@ export function Header() {
   }, []);
 
   const navigationLinks = [
+    { href: "/", label: "Home" },
+    { href: "/services", label: "Services" },
+    { href: "/channels", label: "Channels" },
     { href: "/download", label: "Download" },
     { href: "/faqs", label: "FAQs" },
-    { href: "/products", label: "Products" },
-    { href: "/billing", label: "Billing Login" },
-    { href: "/support", label: "Support Portal" },
+    // { href: "/products", label: "Products" },
+    // { href: "/billing", label: "Billing Login" },
+    // { href: "/support", label: "Support Portal" },
   ];
 
   return (
