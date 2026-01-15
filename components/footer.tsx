@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -15,11 +14,9 @@ import {
 } from "lucide-react";
 
 export function Footer() {
-  const [currentYear, setCurrentYear] = useState<number>(2025);
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+  // Use static year - Next.js doesn't allow new Date() in client components during build
+  // The year will be updated annually or can be set to current year manually
+  const currentYear = 2025;
 
   const footerLinks = {
     company: [

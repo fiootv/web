@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { HeroSection } from "@/components/hero-section";
 import { ByTheNumbersSection } from "@/components/by-the-numbers-section";
 import { ContentLibrarySection } from "@/components/content-library-section";
@@ -10,14 +11,16 @@ import { ReviewsSection } from "@/components/reviews-section";
 export default function Home() {
   return (
     <main>
-      <HeroSection />
-      <ByTheNumbersSection />
-      <ContentLibrarySection />
-      <WhyChooseSection />
-      <CTABannerSection />
-      <PopularMoviesSection />
-      <FAQSection />
-      <ReviewsSection />
+      <Suspense fallback={<div>Loading...</div>}>
+        <HeroSection />
+        <ByTheNumbersSection />
+        <ContentLibrarySection />
+        <WhyChooseSection />
+        <CTABannerSection />
+        <PopularMoviesSection />
+        <FAQSection />
+        <ReviewsSection />
+      </Suspense>
     </main>
   );
 }
