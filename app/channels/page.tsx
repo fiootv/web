@@ -186,7 +186,7 @@ export default function ChannelsPage() {
         />
       )}
 
-      <div className="flex flex-col md:flex-row h-full pt-20">
+      <div className="flex flex-col md:flex-row h-full pt-32">
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-50">
           <h1 className="text-xl font-bold text-gray-900">Channels</h1>

@@ -39,9 +39,9 @@ function VerticalSlider({
 export function HeroSection() {
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-black">
+    <section className="relative flex items-center overflow-hidden bg-black">
       {/* Content */}
-        <div className="container mx-auto px-4 relative z-10 lg:py-20 py-28 pb-16 max-w-[1450px] grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto px-4 relative z-10 lg:py-20 py-28 !pb-0 max-w-[1450px] grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Section - Text Content */}
           <div className="text-white space-y-8 text-center lg:text-left">
             <p className="text-primary text-sm md:text-base font-medium uppercase tracking-wider">
@@ -69,7 +69,7 @@ export function HeroSection() {
           </div>
 
           {/* Right Section - Vertical Movie Poster Sliders */}
-          <div className="relative h-[450px] lg:h-[700px] overflow-hidden">
+          <div className="relative h-[450px] lg:h-[800px] overflow-hidden">
             <div className="grid grid-cols-3 gap-3 h-full">
               {/* Column 1 - Scrolling Up */}
               <VerticalSlider count={BOXES_PER_COLUMN} direction="up" duration={40} />
