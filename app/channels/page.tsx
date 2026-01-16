@@ -177,7 +177,7 @@ export default function ChannelsPage() {
   }, [selectedCategory, displayedChannelsByCategory]);
 
   return (
-    <main className="bg-white min-h-screen text-gray-900 py-20">
+    <main className="bg-white h-screen text-gray-900 overflow-hidden">
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div
@@ -186,7 +186,7 @@ export default function ChannelsPage() {
         />
       )}
 
-      <div className="flex flex-col md:flex-row min-h-screen">
+      <div className="flex flex-col md:flex-row h-full pt-20">
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-50">
           <h1 className="text-xl font-bold text-gray-900">Channels</h1>
@@ -202,13 +202,13 @@ export default function ChannelsPage() {
         {/* Left Sidebar - Categories */}
         <div className={`${
           isMobileMenuOpen ? 'block' : 'hidden'
-        } md:block w-full md:w-80 bg-gray-50 border-r border-gray-200 flex flex-col fixed md:relative z-40 h-full md:h-auto md:min-h-screen top-0 md:top-auto left-0 md:left-auto`}>
-          <div className="p-4 md:p-6 border-b border-gray-200">
+        } md:block w-full md:w-80 bg-gray-50 border-r border-gray-200 flex flex-col fixed md:relative z-40 h-screen md:h-full top-0 md:top-auto left-0 md:left-auto`}>
+          <div className="p-4 md:p-6 border-b border-gray-200 flex-shrink-0">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900 hidden md:block">Channels</h1>
             <h2 className="text-xs md:text-sm text-gray-600 mt-1 md:mt-2">Channel Categories</h2>
           </div>
           
-          <div className="flex-1 overflow-y-auto pt-32 md:pt-0">
+          <div className="flex-1 overflow-y-auto pt-16 md:pt-0 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 min-h-0">
             {isLoadingCategories ? (
               <div className="flex items-center justify-center p-8">
                 <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -227,7 +227,7 @@ export default function ChannelsPage() {
                 </button>
               </div>
             ) : (
-              <div className="py-2">
+              <div className="py-2 h-[calc(100vh-10rem)] overflow-y-auto">
                 {categories.length > 0 ? (
                   categories.map((category) => {
                     const isSelected = selectedCategory === category;
@@ -282,9 +282,9 @@ export default function ChannelsPage() {
         </div>
 
         {/* Right Content Area - Channels Table */}
-        <div className="flex-1 flex flex-col bg-white overflow-hidden w-full md:w-auto">
+        <div className="flex-1 flex flex-col bg-white w-full md:w-auto h-full overflow-hidden">
           {/* Search Bar */}
-          <div className="p-4 md:p-6 border-b border-gray-200">
+          <div className="p-4 md:p-6 border-b border-gray-200 flex-shrink-0">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:gap-4 mb-2">
               <div className="relative w-full sm:flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -363,7 +363,7 @@ export default function ChannelsPage() {
               </div>
             ) : selectedCategory === 'ALL CHANNELS' ? (
               // Show channels grouped by category for ALL CHANNELS, maintaining category order
-              <div className="p-4 md:p-6 space-y-6 md:space-y-8 overflow-y-auto">
+              <div className="p-4 md:p-6 space-y-6 md:space-y-8">
                 {Object.keys(displayedChannelsByCategory).length === 0 ? (
                   <div className="flex items-center justify-center h-full">
                     <p className="text-gray-600">
@@ -437,7 +437,7 @@ export default function ChannelsPage() {
                 </div>
               </div>
             ) : (
-              <div className="p-4 md:p-6 overflow-y-auto">
+              <div className="p-4 md:p-6">
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[600px]">
                     <thead>
