@@ -59,7 +59,9 @@ export async function updateSession(request: NextRequest) {
     "/billing",
     "/support",
     '/channels',
-    '/sync'
+    '/sync',
+    '/pricing',
+    '/checkout'
   ];
 
   // API routes that should be accessible (sync-related endpoints)
@@ -67,7 +69,9 @@ export async function updateSession(request: NextRequest) {
     '/api/cookie-config',
     '/api/sync-channels',
     '/api/channels',
-    '/api/categories'
+    '/api/categories',
+    '/api/checkout',
+    '/api/orders'
   ];
 
   const isPublicRoute = publicRoutes.some((route) => 

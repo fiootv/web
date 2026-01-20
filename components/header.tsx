@@ -35,6 +35,7 @@ export function Header() {
     { href: "/", label: "Home" },
     { href: "/services", label: "Services" },
     { href: "/channels", label: "Channels" },
+    { href: "/pricing", label: "Pricing" },
     { href: "/download", label: "Download" },
     { href: "/faqs", label: "FAQs" },
   ];
@@ -126,9 +127,11 @@ export function Header() {
               </button>
 
               {/* View Plans Button */}
+              <Link href="/pricing">
               <Button className="hidden md:flex bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
                 View Plans
               </Button>
+              </Link>
 
               {/* Mobile Menu Button */}
               <button
@@ -208,12 +211,14 @@ export function Header() {
           {/* Mobile Menu Footer */}
           <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/50 to-transparent">
             <div className="space-y-4">
+              <Link href="/pricing">
               <Button
                 className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 View Plans
               </Button>
+              </Link>
               <div className="flex items-center justify-center gap-2 text-sm text-gray-400 pb-2">
                 <Phone className="h-4 w-4 text-primary" />
                 <a

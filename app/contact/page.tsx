@@ -33,26 +33,26 @@ export default function ContactPage() {
 
   return (
     <main className="bg-white min-h-screen">
-      <div className="container mx-auto px-4 py-20 md:py-[160px] max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start">
+      <div className="container mx-auto px-4 py-20 md:py-32 max-w-6xl">
+        <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-0 lg:gap-12 items-start">
           {/* Left Column - Contact Form */}
-          <div className="space-y-12">
+          <div>
             {/* Header Section */}
-            <div className="space-y-5">
-              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+            <div className="mb-10">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 Get in touch
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-lg text-gray-600">
                 Our friendly team would love to hear from you.
               </p>
             </div>
 
             {/* Contact Form */}
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name Fields */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <Label htmlFor="firstName" className="text-gray-700 text-base font-medium">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="firstName" className="text-sm font-medium text-gray-700 mb-1.5 block">
                     First name
                   </Label>
                   <Input
@@ -62,12 +62,12 @@ export default function ContactPage() {
                     required
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="bg-white border-gray-300 text-gray-900 h-12 text-base focus:border-primary focus:ring-primary"
-                    placeholder="John"
+                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                    placeholder="Enter first name"
                   />
                 </div>
-                <div className="space-y-3">
-                  <Label htmlFor="lastName" className="text-gray-700 text-base font-medium">
+                <div>
+                  <Label htmlFor="lastName" className="text-sm font-medium text-gray-700 mb-1.5 block">
                     Last name
                   </Label>
                   <Input
@@ -77,15 +77,15 @@ export default function ContactPage() {
                     required
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="bg-white border-gray-300 text-gray-900 h-12 text-base focus:border-primary focus:ring-primary"
-                    placeholder="Doe"
+                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                    placeholder="Enter last name"
                   />
                 </div>
               </div>
 
               {/* Email Field */}
-              <div className="space-y-3">
-                <Label htmlFor="email" className="text-gray-700 text-base font-medium">
+              <div>
+                <Label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1.5 block">
                   Email
                 </Label>
                 <Input
@@ -95,14 +95,14 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="bg-white border-gray-300 text-gray-900 h-12 text-base focus:border-primary focus:ring-primary"
-                  placeholder="you@company.com"
+                  className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                  placeholder="Enter email address"
                 />
               </div>
 
               {/* Phone Field */}
-              <div className="space-y-3">
-                <Label htmlFor="phone" className="text-gray-700 text-base font-medium">
+              <div>
+                <Label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-1.5 block">
                   Phone number
                 </Label>
                 <Input
@@ -111,24 +111,24 @@ export default function ContactPage() {
                   type="tel"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="bg-white border-gray-300 text-gray-900 h-12 text-base focus:border-primary focus:ring-primary"
-                  placeholder="+1 (555) 000-0000"
+                  className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                  placeholder="Enter phone number"
                 />
               </div>
 
               {/* Message Field */}
-              <div className="space-y-3">
-                <Label htmlFor="message" className="text-gray-700 text-base font-medium">
+              <div>
+                <Label htmlFor="message" className="text-sm font-medium text-gray-700 mb-1.5 block">
                   Message
                 </Label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={3}
+                  rows={4}
                   required
                   value={formData.message}
                   onChange={handleChange}
-                  className="flex w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-base shadow-sm transition-colors placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 text-gray-900 resize-none"
+                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary resize-none"
                   placeholder="Tell us about your inquiry..."
                 />
               </div>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                   id="privacy"
                   name="privacy"
                   required
-                  className="mt-1 h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
+                  className="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                 />
                 <Label
                   htmlFor="privacy"
@@ -160,16 +160,18 @@ export default function ContactPage() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                size="lg"
-                className="w-full bg-primary hover:bg-primary/90 text-white px-8 py-7 text-lg font-semibold transition-colors duration-200"
+                className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-base font-semibold rounded-md transition-all duration-200"
               >
                 Get in touch
               </Button>
             </form>
           </div>
 
+          {/* Vertical Divider - Hidden on mobile */}
+          <div className="hidden lg:block w-px bg-gray-200 h-full min-h-[500px]"></div>
+
           {/* Right Column - Image with Testimonial Overlay */}
-          <div className="relative h-[600px] lg:h-[800px] border border-gray-200 overflow-hidden">
+          <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] border border-gray-200 rounded-lg overflow-hidden">
             <Image
               src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1000&auto=format&fit=crop"
               alt="Contact us"
