@@ -82,77 +82,67 @@ function PricingContent() {
   };
 
   return (
-    <main className="min-h-screen bg-white pt-32 pb-20">
-      <div className="container mx-auto px-4 max-w-[1000px]">
+    <main className="min-h-screen bg-gray-50 pt-36 pb-20">
+      <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-primary text-xs md:text-sm font-medium uppercase tracking-wider mb-3">
-            OUR PLANS
-          </p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
-            Our Budget Friendly
-            <br />
-            <span className="text-primary">Packages</span>
+          <h1 className="text-4xl md:text-5xl font-semibold text-gray-900 mb-3 tracking-tight">
+            Simple, Transparent <span className="text-primary">Pricing</span>
           </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Choose the plan that works best for you. All plans include full access to our content library.
+          </p>
         </div>
 
         {/* Duration Selector */}
-        <div className="mb-12">
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+        <div className="mb-6">
+          <div className="flex flex-wrap justify-center gap-1 mb-8 max-w-xl mx-auto">
             {pricingPlans.map((plan) => (
-              <button
-                key={plan.id}
-                onClick={() => setSelectedPlan(plan.id)}
-                className={`relative px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
-                  selectedPlan === plan.id
-                    ? "bg-primary text-white shadow-sm"
-                    : "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200"
-                }`}
-              >
-                {plan.displayDuration}
+              <div key={plan.id} className="relative">
+                <button
+                  onClick={() => setSelectedPlan(plan.id)}
+                  className={`px-7 py-3 text-sm font-medium transition-colors relative ${
+                    selectedPlan === plan.id
+                      ? "bg-gray-900 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+                  }`}
+                >
+                  {plan.displayDuration}
+                </button>
                 {plan.bestValue && (
-                  <span className="ml-1.5 text-xs">★</span>
+                  <span className="absolute -top-2 -right-2 bg-primary text-white px-2 py-0.5 text-xs font-medium">
+                    Best Value
+                  </span>
                 )}
-              </button>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Pricing Card */}
-        <div className="max-w-2xl mx-auto">
-          <div
-            className={`relative bg-white rounded-2xl p-8 md:p-12 border transition-all duration-300 ${
-              currentPlan?.bestValue
-                ? "border-primary shadow-lg"
-                : "border-gray-200 shadow-sm"
-            }`}
-          >
-            {/* Best Value Badge */}
-            {currentPlan?.bestValue && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <div className="bg-primary text-white px-4 py-1 rounded-full font-semibold text-xs">
-                  ★ Best Value ★
-                </div>
-              </div>
-            )}
+        <div className="max-w-xl mx-auto mb-16 px-1">
+          
+          <div className={`bg-white border p-10 md:p-12 ${
+            currentPlan?.bestValue ? "border-primary" : "border-gray-200"
+          }`}>
 
-            <div className="text-center mb-10">
+            <div className="mb-12">
               {/* Duration */}
-              <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3">
-                {currentPlan?.duration}
+              <h2 className="text-2xl font-medium text-gray-900 mb-6 tracking-tight">
+                {currentPlan?.displayDuration}
               </h2>
 
               {/* Price */}
-              <div className="flex items-baseline justify-center gap-2 mb-3">
-                <span className="text-5xl md:text-6xl font-bold text-gray-900">
+              <div className="mb-4">
+                <span className="text-6xl md:text-7xl font-light text-gray-900 tracking-tight">
                   ${currentPlan?.price}
                 </span>
               </div>
 
               {/* Savings Badge */}
               {currentPlan?.savings && (
-                <div className="inline-block mb-4">
-                  <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-medium">
+                <div className="mb-6">
+                  <span className="text-sm text-primary font-medium">
                     {currentPlan.savings}
                   </span>
                 </div>
@@ -160,26 +150,26 @@ function PricingContent() {
 
               {/* Price per month */}
               {currentPlan && currentPlan.id !== "1month" && (
-                <p className="text-gray-500 text-sm">
+                <p className="text-gray-500 text-base">
                   ${(currentPlan.price / 
                     (currentPlan.id === "6months" ? 6 : 
                      currentPlan.id === "1year" ? 12 :
-                     currentPlan.id === "2years" ? 24 : 60)).toFixed(2)}/month
+                     currentPlan.id === "2years" ? 24 : 60)).toFixed(2)} per month
                 </p>
               )}
             </div>
 
             {/* Features */}
-            <div className="space-y-3.5 mb-10">
+            <div className="space-y-4 mb-10">
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-3 text-gray-700"
+                  className="flex items-start gap-4"
                 >
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Check className="w-3.5 h-3.5 text-primary" />
+                  <div className="flex-shrink-0 mt-0.5">
+                    <Check className="w-5 h-5 text-primary" strokeWidth={2} />
                   </div>
-                  <span className="text-base">{feature}</span>
+                  <span className="text-gray-700 text-base">{feature}</span>
                 </div>
               ))}
             </div>
@@ -187,56 +177,44 @@ function PricingContent() {
             {/* CTA Button */}
             <Button
               onClick={handleSubscribe}
-              className="w-full bg-primary hover:bg-primary/90 text-white py-6 text-base font-semibold rounded-lg transition-all duration-200 hover:shadow-md"
+              className="w-full bg-primary hover:bg-primary/90 text-white py-6 text-base font-medium transition-colors"
             >
-              Subscribe Now
+              Get Started
             </Button>
 
             {/* Trust Badges */}
-            <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-              <p className="text-gray-500 text-xs">
-                ✓ Instant Access • ✓ Cancel Anytime • ✓ Secure Payment
-              </p>
+            <div className="mt-8 pt-8 border-t border-gray-200">
+              <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
+                <span>Instant Access</span>
+                <span>Cancel Anytime</span>
+                <span>Secure Payment</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Additional Info */}
-        <div className="mt-20">
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
-              <div className="text-2xl mb-3">🎬</div>
-              <h3 className="text-gray-900 font-semibold mb-2 text-sm">Premium Content</h3>
-              <p className="text-gray-600 text-xs leading-relaxed">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Premium Content</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
                 Access to thousands of movies and series across all genres
               </p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
-              <div className="text-2xl mb-3">📱</div>
-              <h3 className="text-gray-900 font-semibold mb-2 text-sm">Watch Anywhere</h3>
-              <p className="text-gray-600 text-xs leading-relaxed">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Watch Anywhere</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
                 Stream on TV, laptop, tablet, or mobile - anytime, anywhere
               </p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
-              <div className="text-2xl mb-3">🌍</div>
-              <h3 className="text-gray-900 font-semibold mb-2 text-sm">Multi-Language</h3>
-              <p className="text-gray-600 text-xs leading-relaxed">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Multi-Language</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
                 Content available in 15+ languages for global entertainment
               </p>
             </div>
           </div>
-        </div>
-
-        {/* FAQ Teaser */}
-        <div className="mt-16 text-center">
-          <p className="text-gray-500 mb-4 text-sm">Have questions?</p>
-          <Button
-            variant="outline"
-            className="border-gray-300 text-gray-700 hover:bg-gray-50"
-          >
-            View FAQs
-          </Button>
         </div>
       </div>
     </main>
@@ -246,9 +224,9 @@ function PricingContent() {
 export default function PricingPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-white pt-32 pb-20 flex items-center justify-center">
+      <main className="min-h-screen bg-gray-50 pt-24 pb-20 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary mb-4" />
+          <Loader2 className="h-8 w-8 animate-spin mx-auto text-gray-900 mb-4" />
           <p className="text-gray-600">Loading...</p>
         </div>
       </main>
