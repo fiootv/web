@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Phone, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
+import { Phone, Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -115,17 +115,6 @@ export function Header() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-3 md:gap-4">
-              {/* Shopping Cart */}
-              <button
-                className="relative p-2 text-gray-300 hover:text-white transition-colors duration-200 hover:bg-white/5 rounded-full"
-                aria-label="Shopping Cart"
-              >
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
-                  0
-                </span>
-              </button>
-
               {/* View Plans Button */}
               <Link href="/pricing">
               <Button className="hidden md:flex bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
