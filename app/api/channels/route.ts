@@ -16,6 +16,8 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
+    
+    // Access searchParams - API routes are dynamic by default
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get('search') || '';
     const category = searchParams.get('category') || '';
