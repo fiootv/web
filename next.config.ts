@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.fiootv.com",
       },
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+      },
     ],
   },
 };

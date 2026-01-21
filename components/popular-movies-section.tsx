@@ -3,77 +3,45 @@
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { fetchPopularMovies, convertTMDBToMovieData } from "@/lib/tmdb";
 
-// OMDB API key - get your free key from http://www.omdbapi.com/apikey.aspx
 // Movie Data Interface
 interface MovieData {
   title: string;
   year: string;
   poster: string;
+  id?: number;
   isPlaceholder?: boolean;
 }
 
-// Static movie data
-const INITIAL_MOVIES: MovieData[] = [
-  {
-    title: "Inception",
-    year: "2010",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Inception",
-  },
-  {
-    title: "Interstellar",
-    year: "2014",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Interstellar",
-  },
-  {
-    title: "Dune: Part Two",
-    year: "2024",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Dune+2",
-  },
-  {
-    title: "Oppenheimer",
-    year: "2023",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Oppenheimer",
-  },
-  {
-    title: "Barbie",
-    year: "2023",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Barbie",
-  },
-  {
-    title: "Avatar: The Way of Water",
-    year: "2022",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Avatar+2",
-  },
-  {
-    title: "Top Gun: Maverick",
-    year: "2022",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Top+Gun",
-  },
-  {
-    title: "Spider-Man: Across the Spider-Verse",
-    year: "2023",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=Spider-Man",
-  },
-  {
-    title: "The Godfather",
-    year: "1972",
-    poster: "https://placehold.co/600x900/1a1a1a/ffffff?text=The+Godfather",
-  },
-  // Placeholder card
-  {
-    title: "The Dark Knight",
-    year: "2008",
-    poster: "",
-    isPlaceholder: true
-  }
-];
-
 export function PopularMoviesSection() {
-  const [movies, setMovies] = useState<MovieData[]>(INITIAL_MOVIES);
-  const [isLoading, setIsLoading] = useState(false);
+  const [movies, setMovies] = useState<MovieData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // No useEffect needed for static data
+  useEffect(() => {
+    async function loadMovies() {
+      setIsLoading(true);
+      try {
+        // Fetch popular movies from TMDB
+        const tmdbMovies = await fetchPopularMovies(1);
+        
+        // Convert to our format and take first 12 movies
+        const movieData = tmdbMovies
+          .slice(0, 12)
+          .map(convertTMDBToMovieData);
+        
+        setMovies(movieData);
+      } catch (error) {
+        console.error('Failed to load movies:', error);
+        // Fallback to empty array on error
+        setMovies([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadMovies();
+  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-black py-20 md:py-28">
@@ -106,7 +74,7 @@ export function PopularMoviesSection() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             {movies.map((movie, index) => (
               <motion.div
-                key={index}
+                key={movie.id || index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -114,21 +82,23 @@ export function PopularMoviesSection() {
                 className="group cursor-pointer"
               >
                 <div className="relative overflow-hidden border border-gray-800 hover:border-primary transition-colors duration-200">
-                  {/* Movie Poster or Placeholder */}
-                  <div className={`relative aspect-[2/3] overflow-hidden ${movie.isPlaceholder ? 'bg-gray-900 flex items-center justify-center' : 'bg-gray-800'}`}>
-                    {movie.isPlaceholder ? (
-                      <div className="text-white/30 font-medium text-lg text-center px-4">
-                        {/* No Image Available */}
-                      </div>
-                    ) : (
+                  {/* Movie Poster */}
+                  <div className="relative aspect-[2/3] overflow-hidden bg-gray-800">
+                    {movie.poster ? (
                       <Image
                         src={movie.poster}
                         alt={movie.title}
                         fill
                         className="object-cover"
                         loading="lazy"
-                        unoptimized
+                        sizes="(max-width: 768px) 50vw, 25vw"
                       />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-900">
+                        <div className="text-white/30 font-medium text-sm text-center px-4">
+                          No Image
+                        </div>
+                      </div>
                     )}
                   </div>
 
