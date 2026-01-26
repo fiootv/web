@@ -45,10 +45,10 @@ export function Footer() {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Youtube, href: "#", label: "YouTube" },
+    { icon: Facebook, href: "https://www.facebook.com/p/fiootv-100089953960081/", label: "Facebook" },
+    // { icon: Twitter, href: "#", label: "Twitter" },
+    // { icon: Instagram, href: "#", label: "Instagram" },
+    // { icon: Youtube, href: "#", label: "YouTube" },
   ];
 
   return (
