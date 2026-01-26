@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -36,7 +37,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "FiooTV - Best IPTV Service Provider | 4000+ Live Channels",
     description: "FiooTV offers 4000+ live TV channels from around the world. Watch unlimited entertainment on any device starting at $15.99/month.",
-    images: ["/twitter-image.png"],
+    images: ["/opengraph-image.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   robots: {
     index: true,
@@ -66,9 +72,61 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "FiooTV",
+    url: defaultUrl,
+    logo: `${defaultUrl}/opengraph-image.png`,
+    description: "FiooTV offers 4000+ live TV channels from around the world. Watch unlimited entertainment on TV, smartphones, laptops, and handheld devices.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+1-855-561-4578",
+      contactType: "Customer Service",
+      email: "support@fiootv.com",
+      availableLanguage: "English",
+    },
+    sameAs: [
+      // Add social media URLs when available
+    ],
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "IPTV Streaming Service",
+    provider: {
+      "@type": "Organization",
+      name: "FiooTV",
+    },
+    areaServed: "Worldwide",
+    description: "Premium IPTV streaming service with 4000+ live TV channels, 28K+ movies, 6K+ series, and on-demand content.",
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: "39.00",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "39.00",
+        priceCurrency: "USD",
+        unitText: "MONTH",
+      },
+    },
+  };
+
   return (
     <html lang="en" className="dark">
       <body className={`${poppins.variable} font-poppins antialiased bg-black text-white`}>
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <Script
+          id="service-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        />
         <Header />
         {children}
         <Footer />

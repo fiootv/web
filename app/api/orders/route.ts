@@ -23,14 +23,19 @@ export async function POST(request: NextRequest) {
       planDuration,
       planPrice,
       planDisplayDuration,
-      name,
+      firstName,
+      lastName,
+      companyName,
       email,
       phone,
-      address,
+      addressLine1,
+      addressLine2,
       city,
       state,
       country,
       zipCode,
+      orderNotes,
+      paymentMethod,
     } = body;
 
     if (!planId || !planDuration || !planPrice || !planDisplayDuration) {
@@ -40,9 +45,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!name || !email) {
+    if (!firstName || !lastName || !email) {
       return NextResponse.json(
-        { error: 'Name and email are required' },
+        { error: 'First name, last name, and email are required' },
         { status: 400 }
       );
     }
@@ -72,15 +77,22 @@ export async function POST(request: NextRequest) {
         plan_duration: planDuration,
         plan_price: planPrice,
         plan_display_duration: planDisplayDuration,
-        customer_name: name.trim(),
+        customer_first_name: firstName?.trim() || null,
+        customer_last_name: lastName?.trim() || null,
+        customer_name: `${firstName?.trim() || ''} ${lastName?.trim() || ''}`.trim(), // Keep for backward compatibility
+        company_name: companyName?.trim() || null,
         customer_email: email.trim().toLowerCase(),
         customer_phone: phone?.trim() || null,
-        customer_address: address?.trim() || null,
+        customer_address_line_1: addressLine1?.trim() || null,
+        customer_address_line_2: addressLine2?.trim() || null,
+        customer_address: addressLine1?.trim() || null, // Keep for backward compatibility
         customer_city: city?.trim() || null,
         customer_state: state?.trim() || null,
         customer_country: country?.trim() || null,
         customer_zip_code: zipCode?.trim() || null,
-        notes: null,
+        order_notes: orderNotes?.trim() || null,
+        notes: orderNotes?.trim() || null, // Keep for backward compatibility
+        payment_method: paymentMethod || 'cash_on_delivery',
         status: 'pending',
       },
     ]).select();

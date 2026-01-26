@@ -2,9 +2,11 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Check, Loader2 } from "lucide-react";
 
 type PricingPlan = {
@@ -65,14 +67,20 @@ const features = [
 ];
 
 type FormData = {
-  name: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
   email: string;
   phone: string;
-  address: string;
+  addressLine1: string;
+  addressLine2: string;
   city: string;
   state: string;
   country: string;
   zipCode: string;
+  orderNotes: string;
+  paymentMethod: string;
+  agreeToTerms: boolean;
 };
 
 function CheckoutContent() {
@@ -82,18 +90,23 @@ function CheckoutContent() {
   
   const [selectedPlan, setSelectedPlan] = useState<PricingPlan | null>(null);
   const [formData, setFormData] = useState<FormData>({
-    name: "",
+    firstName: "",
+    lastName: "",
+    companyName: "",
     email: "",
     phone: "",
-    address: "",
+    addressLine1: "",
+    addressLine2: "",
     city: "",
     state: "",
-    country: "",
+    country: "United States (US)",
     zipCode: "",
+    orderNotes: "",
+    paymentMethod: "cash_on_delivery",
+    agreeToTerms: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   useEffect(() => {
     const plan = pricingPlans.find((p) => p.id === planId);
@@ -106,10 +119,14 @@ function CheckoutContent() {
   }, [planId, router]);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
     setSubmitError(null);
   };
 
@@ -132,8 +149,13 @@ function CheckoutContent() {
     setSubmitError(null);
 
     // Basic validation
-    if (!formData.name.trim() || !formData.email.trim()) {
-      setSubmitError("Name and email are required");
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim()) {
+      setSubmitError("First name, last name, and email are required");
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      setSubmitError("You must agree to the Terms and conditions to place an order");
       return;
     }
 
@@ -155,6 +177,7 @@ function CheckoutContent() {
           planDuration: selectedPlan.duration,
           planPrice: selectedPlan.price,
           planDisplayDuration: selectedPlan.displayDuration,
+          name: `${formData.firstName} ${formData.lastName}`,
           ...formData,
         }),
       });
@@ -191,23 +214,8 @@ function CheckoutContent() {
         throw new Error(data.error || data.message || "Failed to submit order");
       }
 
-      setSubmitSuccess(true);
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        address: "",
-        city: "",
-        state: "",
-        country: "",
-        zipCode: "",
-      });
-
-      // Redirect after 3 seconds
-      setTimeout(() => {
-        router.push("/pricing?success=true");
-      }, 3000);
+      // Redirect to success page with plan details
+      router.push(`/checkout-success?plan=${selectedPlan.id}&duration=${encodeURIComponent(selectedPlan.displayDuration)}&price=${selectedPlan.price}`);
     } catch (error) {
       setSubmitError(
         error instanceof Error ? error.message : "Something went wrong"
@@ -234,41 +242,226 @@ function CheckoutContent() {
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left Side - Form */}
           <div className="order-2 lg:order-1">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
-              Complete Your Order
-            </h1>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+              Billing details
+            </h2>
 
-            {submitSuccess ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Check className="w-8 h-8 text-green-600" />
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {/* First Name, Last Name */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="firstName" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      First name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      type="text"
+                      required
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                      placeholder="Enter first name"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      Last name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      type="text"
+                      required
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                      placeholder="Enter last name"
+                    />
+                  </div>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  Order Submitted Successfully!
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  We'll contact you shortly to complete your subscription.
-                </p>
-                <p className="text-sm text-gray-500">
-                  Redirecting to pricing page...
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Name */}
+
+                {/* Company Name */}
                 <div>
-                  <Label htmlFor="name" className="text-sm font-medium text-gray-700 mb-1.5 block">
-                    Full name <span className="text-red-500">*</span>
+                  <Label htmlFor="companyName" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                    Company name (optional)
                   </Label>
                   <Input
-                    id="name"
-                    name="name"
+                    id="companyName"
+                    name="companyName"
                     type="text"
-                    required
-                    value={formData.name}
+                    value={formData.companyName}
                     onChange={handleInputChange}
                     className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
-                    placeholder="Enter full name"
+                    placeholder="Enter company name"
+                  />
+                </div>
+
+                {/* Country */}
+                <div>
+                  <Label htmlFor="country" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                    Country / Region <span className="text-red-500">*</span>
+                  </Label>
+                  <select
+                    id="country"
+                    name="country"
+                    required
+                    value={formData.country}
+                    onChange={handleInputChange}
+                    className="w-full h-11 px-3 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="United States (US)">United States (US)</option>
+                    <option value="Canada">Canada</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                    <option value="India">India</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Street Address */}
+                <div>
+                  <Label htmlFor="addressLine1" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                    Street address <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="addressLine1"
+                    name="addressLine1"
+                    type="text"
+                    required
+                    value={formData.addressLine1}
+                    onChange={handleInputChange}
+                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900 mb-2"
+                    placeholder="House number and street name"
+                  />
+                  <Input
+                    id="addressLine2"
+                    name="addressLine2"
+                    type="text"
+                    value={formData.addressLine2}
+                    onChange={handleInputChange}
+                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                    placeholder="Apartment, suite, unit, etc. (optional)"
+                  />
+                </div>
+
+                {/* Town / City */}
+                <div>
+                  <Label htmlFor="city" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                    Town / City <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="city"
+                    name="city"
+                    type="text"
+                    required
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                    placeholder="Enter town or city"
+                  />
+                </div>
+
+                {/* State */}
+                <div>
+                  <Label htmlFor="state" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                    State <span className="text-red-500">*</span>
+                  </Label>
+                  <select
+                    id="state"
+                    name="state"
+                    required
+                    value={formData.state}
+                    onChange={handleInputChange}
+                    className="w-full h-11 px-3 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="">Select a state</option>
+                    <option value="Alabama">Alabama</option>
+                    <option value="Alaska">Alaska</option>
+                    <option value="Arizona">Arizona</option>
+                    <option value="Arkansas">Arkansas</option>
+                    <option value="California">California</option>
+                    <option value="Colorado">Colorado</option>
+                    <option value="Connecticut">Connecticut</option>
+                    <option value="Delaware">Delaware</option>
+                    <option value="Florida">Florida</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Hawaii">Hawaii</option>
+                    <option value="Idaho">Idaho</option>
+                    <option value="Illinois">Illinois</option>
+                    <option value="Indiana">Indiana</option>
+                    <option value="Iowa">Iowa</option>
+                    <option value="Kansas">Kansas</option>
+                    <option value="Kentucky">Kentucky</option>
+                    <option value="Louisiana">Louisiana</option>
+                    <option value="Maine">Maine</option>
+                    <option value="Maryland">Maryland</option>
+                    <option value="Massachusetts">Massachusetts</option>
+                    <option value="Michigan">Michigan</option>
+                    <option value="Minnesota">Minnesota</option>
+                    <option value="Mississippi">Mississippi</option>
+                    <option value="Missouri">Missouri</option>
+                    <option value="Montana">Montana</option>
+                    <option value="Nebraska">Nebraska</option>
+                    <option value="Nevada">Nevada</option>
+                    <option value="New Hampshire">New Hampshire</option>
+                    <option value="New Jersey">New Jersey</option>
+                    <option value="New Mexico">New Mexico</option>
+                    <option value="New York">New York</option>
+                    <option value="North Carolina">North Carolina</option>
+                    <option value="North Dakota">North Dakota</option>
+                    <option value="Ohio">Ohio</option>
+                    <option value="Oklahoma">Oklahoma</option>
+                    <option value="Oregon">Oregon</option>
+                    <option value="Pennsylvania">Pennsylvania</option>
+                    <option value="Rhode Island">Rhode Island</option>
+                    <option value="South Carolina">South Carolina</option>
+                    <option value="South Dakota">South Dakota</option>
+                    <option value="Tennessee">Tennessee</option>
+                    <option value="Texas">Texas</option>
+                    <option value="Utah">Utah</option>
+                    <option value="Vermont">Vermont</option>
+                    <option value="Virginia">Virginia</option>
+                    <option value="Washington">Washington</option>
+                    <option value="West Virginia">West Virginia</option>
+                    <option value="Wisconsin">Wisconsin</option>
+                    <option value="Wyoming">Wyoming</option>
+                  </select>
+                </div>
+
+                {/* ZIP Code */}
+                <div>
+                  <Label htmlFor="zipCode" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                    ZIP Code <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="zipCode"
+                    name="zipCode"
+                    type="text"
+                    required
+                    value={formData.zipCode}
+                    onChange={handleInputChange}
+                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                    placeholder="Enter ZIP code"
+                  />
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                    Phone <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
+                    placeholder="Enter phone number"
                   />
                 </div>
 
@@ -289,100 +482,84 @@ function CheckoutContent() {
                   />
                 </div>
 
-                {/* Phone */}
-                <div>
-                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-1.5 block">
-                    Phone number
-                  </Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
-                    placeholder="Enter phone number"
+                {/* Additional Information Section */}
+                <div className="pt-6 border-t border-gray-200">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">
+                    Additional information
+                  </h3>
+                  <div>
+                    <Label htmlFor="orderNotes" className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      Order notes (optional)
+                    </Label>
+                    <textarea
+                      id="orderNotes"
+                      name="orderNotes"
+                      value={formData.orderNotes}
+                      onChange={handleInputChange}
+                      rows={4}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary resize-none"
+                      placeholder="Notes about your order, e.g. special notes for delivery."
+                    />
+                  </div>
+                </div>
+
+                {/* Payment Options */}
+                <div className="pt-6 border-t border-gray-200">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">
+                    Payment
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="radio"
+                        id="cash_on_delivery"
+                        name="paymentMethod"
+                        value="cash_on_delivery"
+                        checked={formData.paymentMethod === "cash_on_delivery"}
+                        onChange={handleInputChange}
+                        className="mt-1 h-4 w-4 text-primary border-gray-300 focus:ring-primary"
+                      />
+                      <div className="flex-1">
+                        <Label htmlFor="cash_on_delivery" className="text-sm font-medium text-gray-900 cursor-pointer block">
+                          Cash on delivery
+                        </Label>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Pay with cash upon delivery.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Privacy Policy Text */}
+                <div className="pt-4">
+                  <p className="text-sm text-gray-600">
+                    Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our{" "}
+                    <Link href="/privacy-policy" className="text-primary hover:underline">
+                      Privacy policy
+                    </Link>
+                    .
+                  </p>
+                </div>
+
+                {/* Terms and Conditions Checkbox */}
+                <div className="flex items-start gap-2">
+                  <Checkbox
+                    id="agreeToTerms"
+                    name="agreeToTerms"
+                    checked={formData.agreeToTerms}
+                    onCheckedChange={(checked) =>
+                      setFormData((prev) => ({ ...prev, agreeToTerms: checked as boolean }))
+                    }
+                    className="mt-0.5"
                   />
-                </div>
-
-                {/* Address */}
-                <div>
-                  <Label htmlFor="address" className="text-sm font-medium text-gray-700 mb-1.5 block">
-                    Address
+                  <Label htmlFor="agreeToTerms" className="text-sm font-medium text-gray-700 cursor-pointer">
+                    I have read and agree to the website{" "}
+                    <Link href="/terms-and-conditions" className="text-primary hover:underline">
+                      Terms and conditions
+                    </Link>{" "}
+                    <span className="text-red-500">*</span>
                   </Label>
-                  <Input
-                    id="address"
-                    name="address"
-                    type="text"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
-                    placeholder="Enter address"
-                  />
-                </div>
-
-                {/* City, State */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="city" className="text-sm font-medium text-gray-700 mb-1.5 block">
-                      City
-                    </Label>
-                    <Input
-                      id="city"
-                      name="city"
-                      type="text"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
-                      placeholder="Enter city"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="state" className="text-sm font-medium text-gray-700 mb-1.5 block">
-                      State
-                    </Label>
-                    <Input
-                      id="state"
-                      name="state"
-                      type="text"
-                      value={formData.state}
-                      onChange={handleInputChange}
-                      className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
-                      placeholder="Enter state"
-                    />
-                  </div>
-                </div>
-
-                {/* Country, Zip */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="country" className="text-sm font-medium text-gray-700 mb-1.5 block">
-                      Country
-                    </Label>
-                    <Input
-                      id="country"
-                      name="country"
-                      type="text"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
-                      placeholder="Enter country"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="zipCode" className="text-sm font-medium text-gray-700 mb-1.5 block">
-                      ZIP Code
-                    </Label>
-                    <Input
-                      id="zipCode"
-                      name="zipCode"
-                      type="text"
-                      value={formData.zipCode}
-                      onChange={handleInputChange}
-                      className="h-11 border-gray-300 focus:border-primary focus:ring-primary bg-white text-gray-900"
-                      placeholder="Enter ZIP code"
-                    />
-                  </div>
                 </div>
 
                 {submitError && (
@@ -391,7 +568,7 @@ function CheckoutContent() {
                   </div>
                 )}
 
-                {/* Submit Button */}
+                {/* Place Order Button */}
                 <Button
                   type="submit"
                   disabled={isSubmitting}
@@ -403,73 +580,63 @@ function CheckoutContent() {
                       Submitting...
                     </>
                   ) : (
-                    "Submit Order"
+                    "Place Order"
                   )}
                 </Button>
               </form>
-            )}
           </div>
 
-          {/* Right Side - Order Summary */}
+          {/* Right Side - Your Order */}
           <div className="order-1 lg:order-2 lg:sticky lg:top-24 lg:border-l lg:border-gray-200 lg:pl-12">
             <h2 className="text-lg font-bold text-gray-900 mb-6">
-              Order Summary
+              Your order
             </h2>
 
             {/* Plan Info */}
             <div className="pb-6 mb-6 border-b border-gray-200">
-              <div className="mb-2">
-                <h3 className="font-semibold text-gray-900 text-base">
-                  {selectedPlan.displayDuration} Plan
-                </h3>
-                <p className="text-sm text-gray-500 mt-0.5">
-                  {selectedPlan.duration}
-                </p>
-              </div>
-              {selectedPlan.savings && (
-                <div className="mt-3">
-                  <span className="inline-block bg-green-50 text-green-700 px-3 py-1 rounded text-xs font-medium">
-                    {selectedPlan.savings}
-                  </span>
+              <div className="flex items-start gap-3 mb-4">
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900 text-base">
+                    {selectedPlan.displayDuration} Plan
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-0.5">
+                    {selectedPlan.duration}
+                  </p>
                 </div>
-              )}
+                <div className="text-right">
+                  <p className="font-semibold text-gray-900">
+                    ${selectedPlan.price}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Features */}
-            <div className="mb-6">
-              <h4 className="font-semibold text-gray-900 mb-3 text-sm">
-                What's Included:
-              </h4>
-              <div className="space-y-2">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-2.5">
-                    <div className="flex-shrink-0 w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
-                      <Check className="w-2.5 h-2.5 text-primary" />
-                    </div>
-                    <span className="text-sm text-gray-700 leading-relaxed">{feature}</span>
-                  </div>
-                ))}
+            {/* Pricing Breakdown */}
+            <div className="mb-6 space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-700">SUBTOTAL</span>
+                <span className="text-gray-900 font-medium">${selectedPlan.price}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-700">Tax</span>
+                <span className="text-gray-900 font-medium">$0.00</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-700">Shipping</span>
+                <span className="text-gray-900 font-medium">Free Shipping</span>
               </div>
             </div>
 
             {/* Total */}
             <div className="pt-6 border-t border-gray-200">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold text-gray-900">Total</span>
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-gray-900 text-lg">TOTAL</span>
                 <div className="text-right">
                   <p className="text-2xl font-bold text-gray-900">
                     ${selectedPlan.price}
                   </p>
-                  {selectedPlan.id !== "1month" && (
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      ${calculateMonthlyPrice().toFixed(2)}/month
-                    </p>
-                  )}
                 </div>
               </div>
-              <p className="text-xs text-gray-500">
-                One-time payment • No recurring charges
-              </p>
             </div>
           </div>
         </div>

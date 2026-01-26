@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { fetchPopularMovies, fetchNowPlayingMovies, fetchTopRatedMovies, getPosterUrl } from "@/lib/tmdb";
 
 // Number of movies per column
@@ -108,12 +109,14 @@ export function HeroSection() {
             </p>
             
             <div className="space-y-4 pt-4">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-white px-8 lg:px-12 py-6 lg:py-8 lg:text-xl text-base font-medium transition-colors duration-200"
-              >
-                Start Your Free Trial Today
-              </Button>
+              <Link href="/pricing">
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white px-8 lg:px-12 py-6 lg:py-8 lg:text-xl text-base font-medium transition-colors duration-200"
+                >
+                  Start Your Free Trial Today
+                </Button>
+              </Link>
             </div>
           </div>
 

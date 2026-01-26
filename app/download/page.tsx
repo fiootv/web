@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import { 
   Download, 
   Smartphone, 
@@ -204,19 +205,21 @@ export default function DownloadPage() {
             Check out our comprehensive setup guides for different devices and platforms.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-base font-semibold transition-colors duration-200"
-              onClick={() => window.location.href = '/faqs'}
-            >
-              View Setup Guides
-            </Button>
-            <Button
-              variant="outline"
-              className="border border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold transition-colors duration-200"
-              onClick={() => window.location.href = '/contact'}
-            >
-              Contact Support
-            </Button>
+            <Link href="/faqs">
+              <Button
+                className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-base font-semibold transition-colors duration-200"
+              >
+                View Setup Guides
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button
+                variant="outline"
+                className="border border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold transition-colors duration-200"
+              >
+                Contact Support
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </div>

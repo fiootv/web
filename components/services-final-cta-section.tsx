@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function ServicesFinalCTASection() {
   return (
@@ -26,21 +27,25 @@ export function ServicesFinalCTASection() {
               Start your journey with fiootv today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                size="lg"
-                className="bg-white hover:bg-gray-100 text-primary px-8 py-6 font-semibold text-base md:text-lg flex items-center gap-2 transition-colors duration-200"
-              >
-                Recharge Now
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border border-white text-white hover:bg-white hover:text-primary px-8 py-6 font-semibold text-base md:text-lg flex items-center gap-2 transition-colors duration-200"
-              >
-                Get Started
-                <ArrowRight className="w-5 h-5" />
-              </Button>
+              <Link href="/billing">
+                <Button
+                  size="lg"
+                  className="bg-white hover:bg-gray-100 text-primary px-8 py-6 font-semibold text-base md:text-lg flex items-center gap-2 transition-colors duration-200"
+                >
+                  Recharge Now
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+              <Link href="/pricing">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-transparent border border-white text-white hover:bg-white hover:text-primary px-8 py-6 font-semibold text-base md:text-lg flex items-center gap-2 transition-colors duration-200"
+                >
+                  Get Started
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
             </div>
           </motion.div>
 

@@ -32,9 +32,8 @@ export function Footer() {
       { href: "/troubleshooting", label: "Troubleshooting" },
     ],
     legal: [
-      { href: "/privacy", label: "Privacy Policy" },
-      { href: "/terms", label: "Terms of Service" },
-      { href: "/cookie-policy", label: "Cookie Policy" },
+      { href: "/privacy-policy", label: "Privacy Policy" },
+      { href: "/terms-and-conditions", label: "Terms and Conditions" },
       { href: "/refund-policy", label: "Refund Policy" },
     ],
     resources: [
@@ -70,15 +69,16 @@ export function Footer() {
             Join thousands of satisfied users and start streaming your favorite content today.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-transparent border border-white text-white hover:bg-white hover:text-primary px-8 py-6 font-semibold text-base md:text-lg flex items-center gap-2 transition-colors duration-200"
-            >
-              View Pricing Plans
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            <Link href="/pricing">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border border-white text-white hover:bg-white hover:text-primary px-8 py-6 font-semibold text-base md:text-lg flex items-center gap-2 transition-colors duration-200"
+              >
+                View Pricing Plans
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
           </div>
         </motion.div>
 
@@ -216,23 +216,24 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-6 text-sm">
               <Link
-                href="/privacy"
+                href="/privacy-policy"
                 className="hover:text-primary transition-colors"
               >
                 Privacy
               </Link>
               <Link
-                href="/terms"
+                href="/terms-and-conditions"
                 className="hover:text-primary transition-colors"
               >
                 Terms
               </Link>
               <Link
-                href="/cookies"
+                href="/refund-policy"
                 className="hover:text-primary transition-colors"
               >
-                Cookies
+                Refund
               </Link>
+             
             </div>
           </div>
         </div>

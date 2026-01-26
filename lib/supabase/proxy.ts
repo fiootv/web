@@ -55,6 +55,10 @@ export async function updateSession(request: NextRequest) {
     "/faqs",
     "/products",
     "/contact",
+    "/contact-success",
+    "/refund-policy",
+    "/privacy-policy",
+    "/terms-and-conditions",
     "/about",
     "/billing",
     "/support",
@@ -64,14 +68,15 @@ export async function updateSession(request: NextRequest) {
     '/checkout'
   ];
 
-  // API routes that should be accessible (sync-related endpoints)
+  // API routes that should be accessible without auth (sync, contact, checkout, etc.)
   const publicApiRoutes = [
     '/api/cookie-config',
     '/api/sync-channels',
     '/api/channels',
     '/api/categories',
     '/api/checkout',
-    '/api/orders'
+    '/api/orders',
+    '/api/contact'
   ];
 
   const isPublicRoute = publicRoutes.some((route) => 
@@ -82,9 +87,17 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith(`${route}/`)
   );
 
+  // SEO files that should always be accessible
+  const isSeoFile = 
+    request.nextUrl.pathname === "/robots.txt" ||
+    request.nextUrl.pathname === "/sitemap.xml" ||
+    request.nextUrl.pathname === "/favicon.ico" ||
+    request.nextUrl.pathname === "/opengraph-image.png";
+
   if (
     !isPublicRoute &&
     !isPublicApiRoute &&
+    !isSeoFile &&
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth") &&

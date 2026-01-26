@@ -2,29 +2,75 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, Star } from "lucide-react";
 
-export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  message: "",
+};
 
-  const handleSubmit = (e: React.FormEvent) => {
+export default function ContactPage() {
+  const router = useRouter();
+  const [formData, setFormData] = useState(initialState);
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      let data: { error?: string; success?: boolean } = {};
+      const text = await res.text();
+      if (text) {
+        try {
+          data = JSON.parse(text) as { error?: string; success?: boolean };
+        } catch {
+          setStatus("error");
+          setErrorMessage(
+            res.ok
+              ? "Something went wrong. Please try again."
+              : "The server returned an unexpected response. Please try again later."
+          );
+          return;
+        }
+      }
+
+      if (!res.ok) {
+        setStatus("error");
+        setErrorMessage(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      setFormData(initialState);
+      setAgreedToPrivacy(false);
+      router.push("/contact-success");
+    } catch {
+      setStatus("error");
+      setErrorMessage(
+        "Failed to send. Please check your connection and try again."
+      );
+    }
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    if (status === "error") setStatus("idle");
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -33,7 +79,7 @@ export default function ContactPage() {
 
   return (
     <main className="bg-white min-h-screen">
-      <div className="container mx-auto px-4 py-20 md:py-32 max-w-6xl">
+      <div className="container mx-auto px-4 py-20 md:py-32 mt-16 max-w-6xl">
         <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-0 lg:gap-12 items-start">
           {/* Left Column - Contact Form */}
           <div>
@@ -46,6 +92,12 @@ export default function ContactPage() {
                 Our friendly team would love to hear from you.
               </p>
             </div>
+
+            {status === "error" && (
+              <div className="mb-6 p-4 rounded-md border border-red-200 bg-red-50 text-red-800 text-sm">
+                {errorMessage}
+              </div>
+            )}
 
             {/* Contact Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -140,6 +192,11 @@ export default function ContactPage() {
                   id="privacy"
                   name="privacy"
                   required
+                  checked={agreedToPrivacy}
+                  onChange={(e) => {
+                    if (status === "error") setStatus("idle");
+                    setAgreedToPrivacy(e.target.checked);
+                  }}
                   className="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                 />
                 <Label
@@ -148,7 +205,7 @@ export default function ContactPage() {
                 >
                   You agree to our{" "}
                   <a
-                    href="/privacy"
+                    href="/privacy-policy"
                     className="text-primary hover:underline font-medium"
                   >
                     privacy policy
@@ -160,18 +217,19 @@ export default function ContactPage() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-base font-semibold rounded-md transition-all duration-200"
+                disabled={status === "loading"}
+                className="w-full bg-primary hover:bg-primary/50 text-white h-12 text-base font-semibold rounded-md transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Get in touch
+                {status === "loading" ? "Sending…" : "Get in touch"}
               </Button>
             </form>
           </div>
 
           {/* Vertical Divider - Hidden on mobile */}
-          <div className="hidden lg:block w-px bg-gray-200 h-full min-h-[500px]"></div>
+          <div className="hidden lg:block w-px bg-gray-200 h-full min-h-[600px]"></div>
 
           {/* Right Column - Image with Testimonial Overlay */}
-          <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] border border-gray-200 rounded-lg overflow-hidden">
+          <div className="relative h-[400px] sm:h-[500px] lg:h-[650px] border border-gray-200 rounded-lg overflow-hidden">
             <Image
               src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1000&auto=format&fit=crop"
               alt="Contact us"
@@ -186,26 +244,10 @@ export default function ContactPage() {
             {/* Testimonial Overlay - White text directly on image */}
             <div className="absolute bottom-12 left-8 right-8 lg:left-12 lg:right-12 lg:bottom-16 z-10">
               {/* Main Quote */}
-              <p className="text-white text-2xl lg:text-3xl font-semibold leading-relaxed mb-6 max-w-2xl">
+              <p className="text-white text-2xl lg:text-3xl font-medium leading-relaxed mb-6 max-w-2xl">
                 &quot;FiooTV is the perfect tool for startups to keep track of their entertainment needs. Their intuitive platform and streaming capabilities have saved our team hours of manual work.&quot;
               </p>
-              
-              {/* Author Info with Stars */}
-              <div className="flex items-center gap-4 flex-wrap">
-                <div>
-                  <p className="text-white text-lg font-medium">— Aliah Lane</p>
-                  <p className="text-white/90 text-base">Founder, Layers.io</p>
-                </div>
-                {/* Star Rating - to the right of author name */}
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-white text-white"
-                    />
-                  ))}
-                </div>
-              </div>
+            
             </div>
           </div>
         </div>

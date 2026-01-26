@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function FooterCTASection() {
   return (
@@ -22,15 +23,16 @@ export function FooterCTASection() {
             Join thousands of satisfied users and start streaming your favorite content today.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 rounded-full font-semibold text-base md:text-lg flex items-center gap-2 rounded-full"
-            >
-              View Pricing Plans
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            <Link href="/pricing">
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-full bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 rounded-full font-semibold text-base md:text-lg flex items-center gap-2 rounded-full"
+              >
+                View Pricing Plans
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </div>
