@@ -94,7 +94,7 @@ function PricingContent() {
           </p>
         </div>
 
-        {/* Duration Selector */}
+        {/* Duration Selector */}  
         <div className="mb-6">
           <div className="flex flex-wrap justify-center gap-1 mb-8 max-w-xl mx-auto">
             {pricingPlans.map((plan) => (

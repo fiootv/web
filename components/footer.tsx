@@ -70,13 +70,7 @@ export function Footer() {
             Join thousands of satisfied users and start streaming your favorite content today.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              size="lg"
-              className="bg-white hover:bg-gray-100 text-primary px-8 py-6 font-semibold text-base md:text-lg flex items-center gap-2 transition-colors duration-200"
-            >
-              Get a free trial
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+        
             <Button
               size="lg"
               variant="outline"

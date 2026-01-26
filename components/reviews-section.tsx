@@ -138,55 +138,7 @@ export function ReviewsSection() {
               </p>
             </div>
 
-            {/* Right Side - Avatars, User Count, and Buttons */}
-            <div className="flex flex-col items-start md:items-end w-full md:w-auto">
-              {/* Avatars Row */}
-              <div className="flex items-center gap-1.5 md:gap-2 mb-3 md:mb-4">
-                {[
-                  "bg-blue-200",
-                  "bg-yellow-200",
-                  "bg-pink-200",
-                  "bg-purple-200",
-                  "bg-blue-200",
-                ].map((color, index) => (
-                  <div
-                    key={index}
-                    className={`w-10 h-10 md:w-12 md:h-12 ${color} flex items-center justify-center text-gray-700 font-bold text-base md:text-lg border border-gray-300`}
-                  >
-                    {String.fromCharCode(65 + index)}
-                  </div>
-                ))}
-              </div>
-
-              {/* User Count Text */}
-              <div className="mb-4 md:mb-6 text-left md:text-right w-full md:w-auto">
-                <p className="text-gray-900 text-base md:text-xl">
-                  18,000+ users already using
-                </p>
-                <p className="text-gray-900 text-base md:text-xl">
-                  our services.
-                </p>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-start md:items-end gap-3 md:gap-4 w-full md:w-auto">
-                <Button
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white px-6 py-4 md:px-8 md:py-6 font-semibold text-sm md:text-lg flex items-center justify-center gap-2 w-full sm:w-auto transition-colors duration-200"
-                >
-                  Get a free trial
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-white border border-primary text-primary hover:bg-primary hover:text-white px-6 py-4 md:px-8 md:py-6 font-semibold text-sm md:text-lg flex items-center justify-center gap-2 w-full sm:w-auto transition-colors duration-200"
-                >
-                  Read more reviews
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                </Button>
-              </div>
-            </div>
+           
           </div>
         </motion.div>
 

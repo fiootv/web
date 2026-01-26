@@ -22,13 +22,7 @@ export function FooterCTASection() {
             Join thousands of satisfied users and start streaming your favorite content today.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              size="lg"
-              className="rounded-full bg-primary hover:bg-primary-600 text-white px-8 py-6 rounded-full font-semibold text-base md:text-lg flex items-center gap-2 shadow-lg hover:shadow-primary/25 transition-all duration-300 rounded-full"
-            >
-              Get a free trial
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+          
             <Button
               size="lg"
               variant="outline"
