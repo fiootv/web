@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
       zipCode,
       orderNotes,
       paymentMethod,
+      source,
     } = body;
 
     if (!planId || !planDuration || !planPrice || !planDisplayDuration) {
@@ -94,6 +95,7 @@ export async function POST(request: NextRequest) {
         notes: orderNotes?.trim() || null, // Keep for backward compatibility
         payment_method: paymentMethod || 'cash_on_delivery',
         status: 'pending',
+        source: source || 'fiootv',
       },
     ]).select();
 

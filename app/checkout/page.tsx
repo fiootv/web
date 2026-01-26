@@ -179,6 +179,7 @@ function CheckoutContent() {
           planDisplayDuration: selectedPlan.displayDuration,
           name: `${formData.firstName} ${formData.lastName}`,
           ...formData,
+          source: "fiootv",
         }),
       });
 

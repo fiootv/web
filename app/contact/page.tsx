@@ -32,7 +32,10 @@ export default function ContactPage() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          source: "fiootv",
+        }),
       });
       let data: { error?: string; success?: boolean } = {};
       const text = await res.text();

@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { firstName, lastName, email, phone, message } = body;
+    const { firstName, lastName, email, phone, message, source } = body;
 
     if (!firstName || !lastName || !email || !message) {
       return NextResponse.json(
@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
         email: String(email).trim().toLowerCase(),
         phone: phone ? String(phone).trim() : null,
         message: String(message).trim(),
+        source: source || 'fiootv',
       },
     ]);
 

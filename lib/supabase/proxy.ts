@@ -56,6 +56,7 @@ export async function updateSession(request: NextRequest) {
     "/products",
     "/contact",
     "/contact-success",
+    "/checkout-success",
     "/refund-policy",
     "/privacy-policy",
     "/terms-and-conditions",
