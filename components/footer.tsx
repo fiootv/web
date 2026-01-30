@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Facebook, Mail, Phone, ArrowRight } from "lucide-react";
 
 export function Footer() {
-  const currentYear = 2025;
+  const currentYear = new Date().getFullYear();
 
   const footerLinks = {
     company: [
