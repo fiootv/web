@@ -1,7 +1,4 @@
-import { AuthButton } from "@/components/auth-button";
-import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export default function ProtectedLayout({
   children,
@@ -16,11 +13,6 @@ export default function ProtectedLayout({
             <Link href={"/"} className="font-bold text-xl">
               FiooTV
             </Link>
-            {hasEnvVars && (
-              <Suspense>
-                <AuthButton />
-              </Suspense>
-            )}
           </div>
         </nav>
         <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
