@@ -80,33 +80,28 @@ export async function updateSession(request: NextRequest) {
     '/api/contact'
   ];
 
-  const isPublicRoute = publicRoutes.some((route) => 
+  const isPublicRoute = publicRoutes.some((route) =>
     request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith(`${route}/`)
   );
 
-  const isPublicApiRoute = publicApiRoutes.some((route) => 
+  const isPublicApiRoute = publicApiRoutes.some((route) =>
     request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith(`${route}/`)
   );
 
-  // SEO files that should always be accessible
-  const isSeoFile = 
+  // SEO files and direct downloads that should always be accessible
+  const isPublicFile =
     request.nextUrl.pathname === "/robots.txt" ||
     request.nextUrl.pathname === "/sitemap.xml" ||
     request.nextUrl.pathname === "/favicon.ico" ||
-    request.nextUrl.pathname === "/opengraph-image.png";
+    request.nextUrl.pathname === "/opengraph-image.png" ||
+    request.nextUrl.pathname === "/stb.apk";
 
-  if (
-    !isPublicRoute &&
-    !isPublicApiRoute &&
-    !isSeoFile &&
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth") &&
-    !request.nextUrl.pathname.startsWith("/api/auth")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  // Redirect protected routes to home page since auth is removed
+  const isProtectedRoute = request.nextUrl.pathname.startsWith("/protected");
+
+  if (isProtectedRoute) {
     const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
+    url.pathname = "/";
     return NextResponse.redirect(url);
   }
 

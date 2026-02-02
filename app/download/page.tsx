@@ -4,12 +4,8 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  Download, 
-  Smartphone, 
-  Tv, 
-  Apple, 
-  Chrome,
+import {
+  Download,
   CheckCircle2
 } from "lucide-react";
 
@@ -26,59 +22,45 @@ const features = [
 const downloadPlatforms = [
   {
     name: "iOS",
-    icon: Apple,
+    image: "/images/downloads/ios.png",
     description: "iPhone & iPad",
-    color: "bg-gray-800",
-    image: "https://www.fiootv.com/wp-content/uploads/2019/03/ios1-1.jpg",
-    downloads: [
-      {
-        label: "Download",
-        url: "https://itunes.apple.com/us/app/golive-player/id1434968108?ls=1&mt=8",
-      },
-    ],
+    url: "https://apps.apple.com/ca/app/golive-player/id1434968108",
+    label: "App Store",
   },
   {
     name: "Android",
-    icon: Smartphone,
-    description: "Android Mobiles, Tablets & Boxes",
-    color: "bg-green-500",
-    image: "https://www.fiootv.com/wp-content/uploads/2019/03/android-1.jpg",
-    downloads: [
-      {
-        label: "Download",
-        url: "https://play.google.com/store/apps/details?id=com.golive.goliveiptvbox",
-      },
-      {
-        label: "Download",
-        url: "https://www.fiootv.com/tv.apk",
-      },
-    ],
+    image: "/images/downloads/android.png",
+    description: "Mobiles & Tablets",
+    url: "https://bit.ly/golivepron",
+    label: "Download APK",
   },
   {
     name: "Android TV",
-    icon: Tv,
-    description: "Android TV Devices",
-    color: "bg-green-600",
-    image: "https://www.fiootv.com/wp-content/uploads/2019/03/android-tv-1.jpg",
-    downloads: [
-      {
-        label: "Download",
-        url: "https://bit.ly/2kCpGaw",
-      },
-    ],
+    image: "/images/downloads/android-tv.png",
+    description: "Smart TVs & Boxes",
+    url: "https://bit.ly/golivepron",
+    label: "Download APK",
   },
   {
-    name: "Web Player",
-    icon: Chrome,
-    description: "Browser-based Player",
-    color: "bg-blue-500",
-    image: "https://www.fiootv.com/wp-content/uploads/2019/03/web-player-1.jpg",
-    downloads: [
-      {
-        label: "Download",
-        url: "https://bit.ly/2ko34dE",
-      },
-    ],
+    name: "Windows",
+    image: "/images/downloads/windows.png",
+    description: "Desktop & Laptop",
+    url: "https://apps.microsoft.com/detail/9nrp2lhsh4mf?hl=en-US&gl=IN",
+    label: "Microsoft Store",
+  },
+  {
+    name: "Firestick",
+    image: "/images/downloads/firestick.png",
+    description: "Amazon Fire Stick",
+    url: "https://bit.ly/golivepron",
+    label: "Download APK",
+  },
+  {
+    name: "STB",
+    image: "/images/downloads/stb.png",
+    description: "Set-Top Box",
+    url: "/stb.apk",
+    label: "Download APK",
   },
 ];
 
@@ -132,10 +114,9 @@ export default function DownloadPage() {
           <h3 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-12">
             Download for Your Device
           </h3>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {downloadPlatforms.map((platform, index) => {
-              const Icon = platform.icon;
               return (
                 <motion.div
                   key={platform.name}
@@ -145,44 +126,35 @@ export default function DownloadPage() {
                   className="bg-white border border-gray-200 p-8 hover:border-primary transition-colors duration-200"
                 >
                   <div className="flex flex-col items-center text-center">
-                    {/* Platform Image/Icon */}
-                    <div className="w-32 h-32 mb-6 relative border border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center">
-                      {platform.image ? (
-                        <Image
-                          src={platform.image}
-                          alt={platform.name}
-                          fill
-                          className="object-contain"
-                        />
-                      ) : (
-                        <div className={`w-full h-full ${platform.color} flex items-center justify-center`}>
-                          <Icon className="w-16 h-16 text-white" />
-                        </div>
-                      )}
+                    {/* Platform Image */}
+                    <div className="w-full h-48 mb-6 relative border border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center">
+                      <Image
+                        src={platform.image}
+                        alt={platform.name}
+                        fill
+                        className="object-contain p-4"
+                      />
                     </div>
-                    
+
                     {/* Platform Name */}
                     <h4 className="text-xl font-bold text-gray-900 mb-2">
                       {platform.name}
                     </h4>
-                    
+
                     {/* Description */}
                     <p className="text-gray-600 text-sm mb-6 min-h-[40px]">
                       {platform.description}
                     </p>
-                    
-                    {/* Download Buttons */}
-                    <div className="w-full space-y-3">
-                      {platform.downloads.map((download, downloadIndex) => (
-                        <Button
-                          key={downloadIndex}
-                          className="w-full bg-gray-50 hover:bg-primary text-gray-700 hover:text-white px-6 py-3 text-sm font-medium border border-gray-200 hover:border-primary transition-colors duration-200 flex items-center justify-center gap-2"
-                          onClick={() => window.open(download.url, '_blank')}
-                        >
-                          <Download className="w-4 h-4" />
-                          {download.label}
-                        </Button>
-                      ))}
+
+                    {/* Download Button */}
+                    <div className="w-full">
+                      <Button
+                        className="w-full bg-gray-50 hover:bg-primary text-gray-700 hover:text-white px-6 py-6 text-sm font-bold border border-gray-200 hover:border-primary transition-colors duration-200 flex items-center justify-center gap-2"
+                        onClick={() => window.open(platform.url, '_blank')}
+                      >
+                        <Download className="w-4 h-4" />
+                        {platform.label}
+                      </Button>
                     </div>
                   </div>
                 </motion.div>
