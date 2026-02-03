@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { sendContactNotification, sendContactConfirmation } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,6 +57,30 @@ export async function POST(request: NextRequest) {
         { error: 'Failed to save your message', details: error.message },
         { status: 500 }
       );
+    }
+
+    const contactData = {
+      firstName: String(firstName).trim(),
+      lastName: String(lastName).trim(),
+      email: String(email).trim().toLowerCase(),
+      phone: phone ? String(phone).trim() : undefined,
+      message: String(message).trim(),
+      source: (source as string) || 'fiootv',
+    };
+
+    const [adminResult, userResult] = await Promise.all([
+      sendContactNotification(contactData),
+      sendContactConfirmation({
+        firstName: contactData.firstName,
+        email: contactData.email,
+        source: contactData.source,
+      }),
+    ]);
+    if (!adminResult.success) {
+      console.error('Contact admin notification failed:', adminResult.error);
+    }
+    if (!userResult.success) {
+      console.error('Contact user confirmation failed:', userResult.error);
     }
 
     return NextResponse.json(

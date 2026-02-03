@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { sendOrderNotification, sendOrderConfirmation } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   console.log('POST /api/orders - Request received');
@@ -105,6 +106,42 @@ export async function POST(request: NextRequest) {
         { error: 'Failed to save order', details: error.message },
         { status: 500 }
       );
+    }
+
+    const customerName = `${firstName?.trim() || ''} ${lastName?.trim() || ''}`.trim();
+    const customerEmail = email.trim().toLowerCase();
+    const orderSource = source || 'fiootv';
+
+    const [adminResult, userResult] = await Promise.all([
+      sendOrderNotification({
+        planDisplayDuration: planDisplayDuration,
+        planPrice: String(planPrice),
+        customerName,
+        customerEmail,
+        customerPhone: phone?.trim(),
+        address: addressLine1?.trim(),
+        city: city?.trim(),
+        state: state?.trim(),
+        country: country?.trim(),
+        zipCode: zipCode?.trim(),
+        paymentMethod: paymentMethod || 'cash_on_delivery',
+        orderNotes: orderNotes?.trim(),
+        source: orderSource,
+      }),
+      sendOrderConfirmation({
+        firstName: firstName?.trim() || '',
+        email: customerEmail,
+        planDisplayDuration: planDisplayDuration,
+        planPrice: String(planPrice),
+        paymentMethod: paymentMethod || 'cash_on_delivery',
+        source: orderSource,
+      }),
+    ]);
+    if (!adminResult.success) {
+      console.error('Order admin notification failed:', adminResult.error);
+    }
+    if (!userResult.success) {
+      console.error('Order user confirmation failed:', userResult.error);
     }
 
     return NextResponse.json(
