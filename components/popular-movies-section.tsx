@@ -8,6 +8,30 @@ import { fetchPopularMovies, convertTMDBToMovieData } from "@/lib/omdb";
 
 const LOAD_TIMEOUT_MS = 15_000;
 
+/** Poster with fallback when image fails to load */
+function PosterImage({ src, alt }: { src: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+        <span className="text-white/30 text-sm">No Image</span>
+      </div>
+    );
+  }
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      className="object-cover"
+      loading="lazy"
+      sizes="(max-width: 768px) 50vw, 25vw"
+      unoptimized
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 // Movie Data Interface
 interface MovieData {
   title: string;
@@ -113,22 +137,12 @@ export function PopularMoviesSection() {
               >
                 <div className="relative overflow-hidden border border-gray-800 hover:border-primary transition-colors duration-200">
                   {/* Movie Poster */}
-                  <div className="relative aspect-[2/3] overflow-hidden bg-gray-800">
+                    <div className="relative aspect-[2/3] overflow-hidden bg-gray-800">
                     {movie.poster ? (
-                      <Image
-                        src={movie.poster}
-                        alt={movie.title}
-                        fill
-                        className="object-cover"
-                        loading="lazy"
-                        sizes="(max-width: 768px) 50vw, 25vw"
-                        unoptimized
-                      />
+                      <PosterImage src={movie.poster} alt={movie.title} />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-900">
-                        <div className="text-white/30 font-medium text-sm text-center px-4">
-                          No Image
-                        </div>
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+                        <span className="text-white/30 text-sm">No Image</span>
                       </div>
                     )}
                   </div>
