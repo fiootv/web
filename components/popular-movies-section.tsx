@@ -1,9 +1,12 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { fetchPopularMovies, convertTMDBToMovieData } from "@/lib/tmdb";
+import { Button } from "@/components/ui/button";
+import { fetchPopularMovies, convertTMDBToMovieData } from "@/lib/omdb";
+
+const LOAD_TIMEOUT_MS = 15_000;
 
 // Movie Data Interface
 interface MovieData {
@@ -17,31 +20,46 @@ interface MovieData {
 export function PopularMoviesSection() {
   const [movies, setMovies] = useState<MovieData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function loadMovies() {
-      setIsLoading(true);
-      try {
-        // Fetch popular movies from TMDB
-        const tmdbMovies = await fetchPopularMovies(1);
-        
-        // Convert to our format and take first 12 movies
-        const movieData = tmdbMovies
-          .slice(0, 12)
-          .map(convertTMDBToMovieData);
-        
-        setMovies(movieData);
-      } catch (error) {
-        console.error('Failed to load movies:', error);
-        // Fallback to empty array on error
-        setMovies([]);
-      } finally {
+  const loadMovies = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    let timedOut = false;
+    const timeoutId = setTimeout(() => {
+      timedOut = true;
+      setError("Request took too long. Please check your connection and try again.");
+      setIsLoading(false);
+    }, LOAD_TIMEOUT_MS);
+
+    try {
+      const tmdbMovies = await fetchPopularMovies(1);
+      if (timedOut) return;
+
+      const movieData = tmdbMovies
+        .slice(0, 12)
+        .map(convertTMDBToMovieData);
+
+      setMovies(movieData);
+      if (tmdbMovies.length === 0) {
+        setError("Movies could not be loaded. Check that NEXT_PUBLIC_OMDB_API_KEY is set in .env.local.");
+      }
+    } catch (err) {
+      if (timedOut) return;
+      console.error("Failed to load movies:", err);
+      setMovies([]);
+      setError("Couldn't load movies. Please try again later.");
+    } finally {
+      if (!timedOut) {
+        clearTimeout(timeoutId);
         setIsLoading(false);
       }
     }
-
-    loadMovies();
   }, []);
+
+  useEffect(() => {
+    loadMovies();
+  }, [loadMovies]);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-black py-20 md:py-28">
@@ -66,9 +84,21 @@ export function PopularMoviesSection() {
         </motion.div>
 
         {/* Movie Grid */}
-        {isLoading ? (
+        {isLoading && !error ? (
           <div className="flex items-center justify-center h-96">
             <div className="text-white text-lg">Loading movies...</div>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center min-h-[280px] text-center px-4">
+            <p className="text-red-400 font-medium mb-2">Something went wrong</p>
+            <p className="text-white/70 text-sm md:text-base max-w-md mb-6">{error}</p>
+            <Button
+              onClick={loadMovies}
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+            >
+              Reload movies
+            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
@@ -92,6 +122,7 @@ export function PopularMoviesSection() {
                         className="object-cover"
                         loading="lazy"
                         sizes="(max-width: 768px) 50vw, 25vw"
+                        unoptimized
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-900">

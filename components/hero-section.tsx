@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { fetchPopularMovies, fetchNowPlayingMovies, fetchTopRatedMovies, getPosterUrl } from "@/lib/tmdb";
+import { fetchPopularMovies, getPosterUrl } from "@/lib/omdb";
 
 // Number of movies per column
 const MOVIES_PER_COLUMN = 7;
@@ -12,6 +12,26 @@ const MOVIES_PER_COLUMN = 7;
 interface MoviePoster {
   poster_path: string | null;
   id: number;
+}
+
+/** Poster image with fallback when load fails (broken URL, 403, etc.) */
+function PosterImage({ src, alt }: { src: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) {
+    return <div className="absolute inset-0 bg-gray-800" />;
+  }
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      className="object-cover"
+      loading="lazy"
+      sizes="(max-width: 768px) 33vw, 20vw"
+      unoptimized
+      onError={() => setFailed(true)}
+    />
+  );
 }
 
 function VerticalSlider({ 
@@ -35,21 +55,14 @@ function VerticalSlider({
         }}
       >
         {duplicatedMovies.map((movie, index) => (
-          <div key={`${movie.id || 'placeholder'}-${index}`} className="relative group flex-shrink-0">
-            {movie.poster_path ? (
-              <div className="relative w-full aspect-[2/3] overflow-hidden border border-gray-700">
-                <Image
-                  src={getPosterUrl(movie.poster_path)}
-                  alt="Movie poster"
-                  fill
-                  className="object-cover"
-                  loading="lazy"
-                  sizes="(max-width: 768px) 33vw, 20vw"
-                />
-              </div>
-            ) : (
-              <div className="relative w-full aspect-[2/3] bg-gray-800 border border-gray-700" />
-            )}
+          <div key={`${movie.id || "placeholder"}-${index}`} className="relative group flex-shrink-0">
+            <div className="relative w-full aspect-[2/3] overflow-hidden border border-gray-700">
+              {movie.poster_path ? (
+                <PosterImage src={getPosterUrl(movie.poster_path)} alt="Movie poster" />
+              ) : (
+                <div className="absolute inset-0 bg-gray-800" />
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -61,27 +74,43 @@ export function HeroSection() {
   const [column1Movies, setColumn1Movies] = useState<MoviePoster[]>([]);
   const [column2Movies, setColumn2Movies] = useState<MoviePoster[]>([]);
   const [column3Movies, setColumn3Movies] = useState<MoviePoster[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadMovies() {
+      setError(null);
       try {
-        // Fetch different movie lists for variety
-        const [popular, nowPlaying, topRated] = await Promise.all([
+        // Fetch multiple pages so we have enough for all three columns (avoids empty carousels)
+        const [page1, page2, page3] = await Promise.all([
           fetchPopularMovies(1),
-          fetchNowPlayingMovies(1),
-          fetchTopRatedMovies(1),
+          fetchPopularMovies(2),
+          fetchPopularMovies(3),
         ]);
 
-        // Set movies for each column, ensuring we have enough
-        setColumn1Movies(popular.slice(0, MOVIES_PER_COLUMN).map(m => ({ poster_path: m.poster_path, id: m.id })));
-        setColumn2Movies(nowPlaying.slice(0, MOVIES_PER_COLUMN).map(m => ({ poster_path: m.poster_path, id: m.id })));
-        setColumn3Movies(topRated.slice(0, MOVIES_PER_COLUMN).map(m => ({ poster_path: m.poster_path, id: m.id })));
-      } catch (error) {
-        console.error('Failed to load movies for hero section:', error);
-        // Fallback to empty arrays
+        // Single pool, dedupe by id, then split into three columns
+        const seen = new Set<number>();
+        const pool: MoviePoster[] = [];
+        for (const m of [...page1, ...page2, ...page3]) {
+          if (pool.length >= MOVIES_PER_COLUMN * 3) break;
+          if (seen.has(m.id)) continue;
+          seen.add(m.id);
+          pool.push({ poster_path: m.poster_path, id: m.id });
+        }
+
+        const perColumn = MOVIES_PER_COLUMN;
+        setColumn1Movies(pool.slice(0, perColumn));
+        setColumn2Movies(pool.slice(perColumn, perColumn * 2));
+        setColumn3Movies(pool.slice(perColumn * 2, perColumn * 3));
+
+        if (pool.length === 0) {
+          setError("Movies could not be loaded. Check that NEXT_PUBLIC_OMDB_API_KEY is set in .env.local.");
+        }
+      } catch (err) {
+        console.error("Failed to load movies for hero section:", err);
         setColumn1Movies([]);
         setColumn2Movies([]);
         setColumn3Movies([]);
+        setError("Couldn't load movies. Please try again later.");
       }
     }
 
@@ -122,16 +151,21 @@ export function HeroSection() {
 
           {/* Right Section - Vertical Movie Poster Sliders */}
           <div className="relative h-[450px] lg:h-[800px] overflow-hidden">
-            <div className="grid grid-cols-3 gap-3 h-full">
-              {/* Column 1 - Scrolling Up */}
-              <VerticalSlider movies={column1Movies.length > 0 ? column1Movies : Array(MOVIES_PER_COLUMN).fill({ poster_path: null, id: 0 })} direction="up" duration={40} />
-              
-              {/* Column 2 - Scrolling Down */}
-              <VerticalSlider movies={column2Movies.length > 0 ? column2Movies : Array(MOVIES_PER_COLUMN).fill({ poster_path: null, id: 0 })} direction="down" duration={50} />
-              
-              {/* Column 3 - Scrolling Up */}
-              <VerticalSlider movies={column3Movies.length > 0 ? column3Movies : Array(MOVIES_PER_COLUMN).fill({ poster_path: null, id: 0 })} direction="up" duration={44} />
-            </div>
+            {error ? (
+              <div className="flex flex-col items-center justify-center h-full text-center px-4 py-8 rounded-xl bg-gray-800/50">
+                <p className="text-red-400 font-medium mb-2">Something went wrong</p>
+                <p className="text-white/70 text-sm md:text-base max-w-md">{error}</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-3 gap-3 h-full">
+                {/* Column 1 - Scrolling Up */}
+                <VerticalSlider movies={column1Movies.length > 0 ? column1Movies : Array(MOVIES_PER_COLUMN).fill({ poster_path: null, id: 0 })} direction="up" duration={40} />
+                {/* Column 2 - Scrolling Down */}
+                <VerticalSlider movies={column2Movies.length > 0 ? column2Movies : Array(MOVIES_PER_COLUMN).fill({ poster_path: null, id: 0 })} direction="down" duration={50} />
+                {/* Column 3 - Scrolling Up */}
+                <VerticalSlider movies={column3Movies.length > 0 ? column3Movies : Array(MOVIES_PER_COLUMN).fill({ poster_path: null, id: 0 })} direction="up" duration={44} />
+              </div>
+            )}
           </div>
         </div>
   

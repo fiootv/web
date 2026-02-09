@@ -60,11 +60,11 @@ FiooTV is a premium IPTV (Internet Protocol Television) service that delivers te
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
-   NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+   NEXT_PUBLIC_OMDB_API_KEY=your_omdb_api_key
    ```
 
    - You can find Supabase values in your [Supabase project settings](https://supabase.com/dashboard/project/_/settings/api).
-   - Get your TMDB API key from [The Movie Database (TMDB)](https://www.themoviedb.org/settings/api). The API key is used to display real movie posters on the home page.
+   - Get your OMDB API key from [OMDb API](https://www.omdbapi.com/apikey.aspx). The API key is used to display real movie posters on the home page.
 
 4. Run the development server:
    ```bash
